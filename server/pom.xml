@@ -10,8 +10,40 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>anagrafica</name>
-    <url>http://maven.apache.org</url>
+    <name>Anagrafica parrocchiani</name>
+    <url>https://github.com/mjhost/anagrafica</url>
+
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <organization>
+        <name>Neo Technology</name>
+        <url>http://neo4j.com</url>
+    </organization>
+
+    <developers>
+        <developer>
+            <id>mm</id>
+            <name>Massimo Manfredino</name>
+            <email>massimo.manfredino@gmail.com</email>
+        </developer>
+        <developer>
+            <id>pm</id>
+            <name>Paolo Mariotti</name>
+            <email>TODO</email>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection>scm:git:git@github.com:mjhost/anagrafica.git</connection>
+        <developerConnection>scm:git:git@github.com:mjhost/anagrafica.git</developerConnection>
+        <url>git@github.com:mjhost/anagrafica.git</url>
+    </scm>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -50,4 +82,15 @@
             </plugin>
         </plugins>
     </build>
+
+    <repositories>
+        <repository>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+            <id>bintray-andimarek-graphql-java</id>
+            <name>bintray</name>
+            <url>http://dl.bintray.com/andimarek/graphql-java</url>
+        </repository>
+    </repositories>
 </project>
