@@ -7,7 +7,7 @@ Person (label)
 * birth_place
 * death_date
 * death_place
-* employment
+* job_title
 * education_level
 * hobbies
 * address_street
@@ -46,6 +46,7 @@ Event (label)
 * name
 * description
 * date
+* place
 * creation_date
 * update_date
 
