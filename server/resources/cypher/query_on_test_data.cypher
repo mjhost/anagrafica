@@ -2,19 +2,20 @@
 
 
 MATCH
-  (a:Person)-[m:GOT_MARRIED_AT]->(p:Parish)<-[:GOT_MARRIED_AT]-(b:Person)
+  (g:Person)-[mg:GOT_MARRIED_AT]->(p:Parish)<-[mb:GOT_MARRIED_AT]-(b:Person)
 WHERE
-  a.sex = "M" AND
+  g.sex = "M" AND
   b.sex = "F" AND
-  p.name = "Olson Church"
+  p.name = "Olson Church" AND
+  mg.id = mb.id
 RETURN
-  a AS groom, b AS bride, m.date AS wedding_date
+  g AS groom, b AS bride, mg.date AS wedding_date
 
 // MARITO DI Anne Ruiz
 MATCH
-  (g:Person)-[m:GOT_MARRIED_AT]->(p:Parish)<-[:GOT_MARRIED_AT]-(b:Person)
+  (g:Person)-[mg:GOT_MARRIED_AT]->(p:Parish)<-[mb:GOT_MARRIED_AT]-(b:Person)
 WHERE
-  b.first_name = "Anne" AND
-  b.last_name = "Ruiz"
+  b.first_name = "Anne" AND b.last_name = "Ruiz" AND
+  mg.id = mb.id
 RETURN
   g AS groom
