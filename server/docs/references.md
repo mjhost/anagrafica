@@ -28,3 +28,14 @@ http://davidandsuzi.com/writing-a-basic-api-with-graphql/
 How to create a GraphQL server in Java and a Javascript client
 https://nwillc.wordpress.com/2016/10/13/graphql-java-server-javascript-client/
 
+A 6-Legged Blue Frankenduck or How to Build a GraphQL-Compatible API in Java
+https://medium.com/@dp118m/a-6-legged-blue-frankenduck-or-how-to-build-a-graphql-compatible-api-in-java-ade1eb3b9436#.677wct11k
+
+---
+Librerie in vari linguaggi
+https://github.com/chentsulin/awesome-graphql
+
+---
+Query browser GraphiQL
+http://graphql.org/swapi-graphql
+
