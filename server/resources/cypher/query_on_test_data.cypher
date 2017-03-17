@@ -7,7 +7,7 @@ WHERE
   g.sex = "M" AND
   b.sex = "F" AND
   p.name = "Olson Church" AND
-  mg.id = mb.id
+  mg.document_record = mb.document_record
 RETURN
   g AS groom, b AS bride, mg.date AS wedding_date
 
@@ -16,6 +16,6 @@ MATCH
   (g:Person)-[mg:GOT_MARRIED_AT]->(p:Parish)<-[mb:GOT_MARRIED_AT]-(b:Person)
 WHERE
   b.first_name = "Anne" AND b.last_name = "Ruiz" AND
-  mg.id = mb.id
+  mg.document_record = mb.document_record
 RETURN
   g AS groom

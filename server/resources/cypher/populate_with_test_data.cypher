@@ -57,7 +57,7 @@ WHERE
   a.first_name = "Frances" AND a.last_name = "Gonzales" AND
   p.name = "Olson Church"
 CREATE
-  (a)-[:GOT_MARRIED_AT{id:1,date:"7/12/2009"}]->(p)
+  (a)-[:GOT_MARRIED_AT{document_record:"a1s2",date:"7/12/2009"}]->(p)
 
 MATCH
   (b:Person),(p:Parish)
@@ -65,4 +65,4 @@ WHERE
   b.first_name = "Anne" AND b.last_name = "Ruiz" AND
   p.name = "Olson Church"
 CREATE
-  (b)-[:GOT_MARRIED_AT{id:1,date:"7/12/2009"}]->(p)
+  (b)-[:GOT_MARRIED_AT{document_record:"a1s2",date:"7/12/2009"}]->(p)
