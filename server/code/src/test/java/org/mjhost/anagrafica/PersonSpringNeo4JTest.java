@@ -4,7 +4,10 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mjhost.anagrafica.persistence.model.Parish;
 import org.mjhost.anagrafica.persistence.model.Person;
+import org.mjhost.anagrafica.persistence.model.Wedding;
+import org.mjhost.anagrafica.persistence.repository.ParishRepository;
 import org.mjhost.anagrafica.persistence.repository.PersonRepository;
 import org.neo4j.ogm.session.Session;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +17,6 @@ import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import static org.hamcrest.core.IsEqual.equalTo;
 import static org.hamcrest.core.IsNull.notNullValue;
 import static org.junit.Assert.assertThat;
 
@@ -36,38 +38,49 @@ public class PersonSpringNeo4JTest {
     @Autowired
     private PersonRepository personRepository;
 
+    @Autowired
+    private ParishRepository parishRepository;
+
     @Test
     public void testFindPersonByName() {
         String firstName = "Anne";
         String lastName = "Ruiz";
 
         Person person = personRepository.findByFirstName(firstName);
-
         assertThat(person, notNullValue());
-        assertThat(person.getSex(), equalTo("F"));
+
+//        Person groom = personRepository.findGroomByBrideName(firstName, lastName);
+//
+//        assertThat(groom, notNullValue());
+//        assertThat(person.getSex(), equalTo("F"));
     }
 
     @Before
     public void setUp() {
 //        populate Neo4J
-//        Movie matrix = new Movie("The Matrix", 1999);
-//
-//        instance.save(matrix);
-//
-//        Person keanu = new Person("Keanu Reeves");
-//
-//        personRepository.save(keanu);
-//
-//        Role neo = new Role(matrix, keanu);
-//        neo.addRoleName("Neo");
-//
-//        matrix.addRole(neo);
-//
-//        instance.save(matrix);
+        Person groom = new Person();
+        groom.setFirstName("Frances");
+        groom.setLastName("Gonzales");
+        personRepository.save(groom);
+
+        Person bride = new Person();
+        bride.setFirstName("Anne");
+        bride.setLastName("Ruiz");
+        personRepository.save(bride);
+
+        Parish parish = new Parish();
+        parish.setName("Olson Church");
+        parish.setDescription("blah, blah, blah");
+        parishRepository.save(parish);
+
+        Wedding wedding = new Wedding(groom, parish, "as12");
+
+        parish.addWedding(wedding);
+        parishRepository.save(parish);
     }
 
     @After
     public void tearDown() {
-//        session.purgeDatabase();
+        session.purgeDatabase();
     }
 }

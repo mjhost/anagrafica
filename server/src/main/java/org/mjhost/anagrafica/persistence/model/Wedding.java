@@ -1,4 +1,4 @@
-package org.mjhost.anagrafica.persistence.model;
+package org.mjhost.anagrafica.model;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
@@ -22,10 +22,11 @@ public class Wedding {
 
     private String documentRecord;
 
-    public Wedding(Person person, Parish parish, String documentRecord) {
+    public Wedding() {}
+
+    public Wedding(Person person, Parish parish) {
         this.person = person;
         this.parish = parish;
-        this.documentRecord = documentRecord;
     }
 
     public Long getId() {
