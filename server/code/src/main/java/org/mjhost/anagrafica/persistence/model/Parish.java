@@ -6,7 +6,6 @@ import org.neo4j.ogm.annotation.GraphId;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Relationship;
 
-import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -32,7 +31,7 @@ public class Parish {
         this.id = id;
     }
 
-    public Collection<Wedding> getWeddings() {
+    public List<Wedding> getWeddings() {
         return weddings;
     }
 
