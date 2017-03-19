@@ -1,14 +1,13 @@
-package org.mjhost.anagrafica;
+package org.mjhost.anagrafica.repository;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mjhost.anagrafica.persistence.model.Parish;
-import org.mjhost.anagrafica.persistence.model.Person;
-import org.mjhost.anagrafica.persistence.model.Wedding;
-import org.mjhost.anagrafica.persistence.repository.ParishRepository;
-import org.mjhost.anagrafica.persistence.repository.PersonRepository;
+import org.mjhost.anagrafica.model.Parish;
+import org.mjhost.anagrafica.model.Person;
+import org.mjhost.anagrafica.model.Wedding;
 import org.neo4j.ogm.session.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.data.neo4j.Neo4jDataAutoConfiguration;
@@ -19,19 +18,17 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
+import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.hamcrest.core.IsNull.notNullValue;
 import static org.junit.Assert.assertThat;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest
-//        (
-//        webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT
-//)
-@Import(Neo4jDataAutoConfiguration.class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Transactional
-public class WeddingSpringNeo4JTest {
+public class WeddingRepositoryTest {
 
     protected final static String BRIDE_FIRST_NAME = "Anne";
 
@@ -64,9 +61,22 @@ public class WeddingSpringNeo4JTest {
 
     @Test
     public void testFindBrideByFirstName() {
-        Person bride = personRepository.findByFirstName(BRIDE_FIRST_NAME);
+        List<Person> people = personRepository.findByFirstName(BRIDE_FIRST_NAME);
+        assertThat(CollectionUtils.isEmpty(people), is(false));
+        assertThat(people.size(), is(1));
+        Person bride = people.get(0);
         assertThat(bride, notNullValue());
         assertThat(bride.getLastName(), equalTo(BRIDE_LAST_NAME));
+        assertThat(bride.getSex(), equalTo(FEMALE));
+    }
+
+    @Test
+    public void testFindBrideByName() {
+        List<Person> people = personRepository.findByName(BRIDE_FIRST_NAME, BRIDE_LAST_NAME);
+        assertThat(CollectionUtils.isEmpty(people), is(false));
+        assertThat(people.size(), is(1));
+        Person bride = people.get(0);
+        assertThat(bride, notNullValue());
         assertThat(bride.getSex(), equalTo(FEMALE));
     }
 

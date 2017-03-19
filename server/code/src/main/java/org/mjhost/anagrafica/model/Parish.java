@@ -1,4 +1,4 @@
-package org.mjhost.anagrafica.persistence.model;
+package org.mjhost.anagrafica.model;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;

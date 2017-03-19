@@ -1,9 +1,7 @@
-package org.mjhost.anagrafica.persistence.model;
+package org.mjhost.anagrafica.model;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import graphql.schema.GraphQLNonNull;
-import graphql.schema.GraphQLObjectType;
 import org.neo4j.ogm.annotation.GraphId;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Property;
@@ -11,9 +9,6 @@ import org.neo4j.ogm.annotation.Relationship;
 
 import java.util.LinkedList;
 import java.util.List;
-
-import static graphql.Scalars.GraphQLString;
-import static graphql.schema.GraphQLObjectType.newObject;
 
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 @NodeEntity
@@ -74,24 +69,5 @@ public class Person {
 
     public void addWedding(Wedding wedding) {
         this.weddings.add(wedding);
-    }
-
-//    TODO: use a better design pattern
-    public static GraphQLObjectType type() {
-//        describe Person output
-        return newObject()
-            .name("Person")
-            .description("TODO")
-            .field(f -> f
-                .name("firstName")
-                .type(new GraphQLNonNull(GraphQLString))
-                .description("TODO")
-            )
-            .field(f -> f
-                .name("lastName")
-                .type(new GraphQLNonNull(GraphQLString))
-                .description("TODO")
-            )
-            .build();
     }
 }
