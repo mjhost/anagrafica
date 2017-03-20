@@ -40,6 +40,11 @@ public class PersonGraph {
                 .type(new GraphQLNonNull(GraphQLString))
                 .description("TODO")
             )
+            .field(f -> f
+                .name("sex")
+                .type(new GraphQLNonNull(GraphQLString))
+                .description("TODO")
+            )
             .build();
     }
 
