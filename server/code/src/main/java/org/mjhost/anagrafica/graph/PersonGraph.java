@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Map;
 
+import static graphql.Scalars.GraphQLLong;
 import static graphql.Scalars.GraphQLString;
 import static graphql.schema.GraphQLObjectType.newObject;
 
@@ -43,6 +44,11 @@ public class PersonGraph {
             .field(f -> f
                 .name("sex")
                 .type(new GraphQLNonNull(GraphQLString))
+                .description("TODO")
+            )
+            .field(f -> f
+                .name("birthDate")
+                .type(GraphQLLong)
                 .description("TODO")
             )
             .build();
