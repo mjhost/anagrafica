@@ -54,7 +54,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <graphql.java.version>2.3.0</graphql.java.version>
-        <neo4j.ogm.embedded.driver.version>2.1.2</neo4j.ogm.embedded.driver.version>
+        <neo4j.driver.version>2.1.2</neo4j.driver.version>
         <neo4j.version>3.1.2</neo4j.version>
     </properties>
 
@@ -83,6 +83,13 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
+        <!-- NEO4j -->
+        <dependency>
+            <groupId>org.neo4j</groupId>
+            <artifactId>neo4j-ogm-bolt-driver</artifactId>
+            <version>${neo4j.driver.version}</version>
+        </dependency>
+
         <!-- TEST -->
 
         <!-- SPRING -->
@@ -96,7 +103,7 @@
         <dependency>
             <groupId>org.neo4j</groupId>
             <artifactId>neo4j-ogm-embedded-driver</artifactId>
-            <version>${neo4j.ogm.embedded.driver.version}</version>
+            <version>${neo4j.driver.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>

@@ -31,7 +31,7 @@ public class PersonService {
     private Environment env;
 
     @Transactional(readOnly = true)
-    public List<Map<String, Object>> findPeopleByName(@NotNull String query) throws PersonException {
+    public List<Map<String, Object>> findPeople(@NotNull String query) throws PersonException {
 //        TODO : MUST HANDLE DYNAMIC MESSAGES, EXCEPTIONS AND LOG
         try {
             ExecutionResult result = graphManager.getGraph().execute(URLDecoder.decode(query, "UTF-8"));

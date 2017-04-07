@@ -10,7 +10,7 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Map;
 
-@RestController("/")
+@RestController("/people")
 public class PersonController {
 
     private final PersonService personService;
@@ -20,11 +20,11 @@ public class PersonController {
         this.personService = personService;
     }
 
-    @RequestMapping("/people")
-    public List<Map<String, Object>> findPeopleByName(@RequestParam(value = "query", required = true) String query) {
+    @RequestMapping("/find")
+    public List<Map<String, Object>> findPeople(@RequestParam(value = "query", required = true) String query) {
 //        TODO: handle exceptions
         try {
-            return personService.findPeopleByName(query);
+            return personService.findPeople(query);
         } catch (Exception e) {
             e.printStackTrace();
         }

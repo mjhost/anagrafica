@@ -1,21 +1,41 @@
 // NODES
 
+// LOCATION
+
+CREATE (
+  n:Location {
+    address : "12, Olympus Street",
+    city : "New York",
+    state : "New Jersey",
+    zip_code : 11208
+  }
+)
+
+// ORGANIZATION
+
+CREATE (
+  n:Organization {
+    name : "Olson Church",
+    description : "blah, blah, blah"
+  }
+)
+
 // PERSON
+
+
+type=node, props={sex=M, last_name=Gonzales, first_name=Frances}}]}
 
 CREATE (
   n:Person {
     first_name : "Frances",
     last_name : "Gonzales",
-    sex : "M",
-    birth_date : "19/8/1984",
-    birth_place : "Sumberrejo",
-    education_level : "interdum venenatis",
-    address_street : "7119 Eagan Junction",
-    address_city : "Kuiyong",
-    address_country : "Indonesia",
-    home_phone : "62-(383)111-2888"
+    sex : "M"
   }
 )
+
+
+
+
 
 CREATE (
   n:Person {
