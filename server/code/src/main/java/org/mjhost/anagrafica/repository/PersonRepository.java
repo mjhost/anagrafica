@@ -1,6 +1,6 @@
 package org.mjhost.anagrafica.repository;
 
-import org.mjhost.anagrafica.model.Person;
+import org.mjhost.anagrafica.model.node.Person;
 import org.springframework.data.neo4j.annotation.Query;
 import org.springframework.data.neo4j.repository.GraphRepository;
 import org.springframework.data.repository.query.Param;
@@ -30,7 +30,7 @@ public interface PersonRepository extends GraphRepository<Person> {
 
     @Query(
         " MATCH " +
-            " (g:Person)-[mg:GOT_MARRIED_AT]->(p:Parish)<-[mb:GOT_MARRIED_AT]-(b:Person) " +
+            " (g:Person)-[mg:GOT_MARRIED_AT]->(p:Organization)<-[mb:GOT_MARRIED_AT]-(b:Person) " +
         " WHERE " +
             " b.first_name = {fn} AND b.last_name = {ln} AND mg.document_record = mb.document_record " +
         " RETURN " +

@@ -1,10 +1,14 @@
-package org.mjhost.anagrafica.model;
+package org.mjhost.anagrafica.model.relationship;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import org.mjhost.anagrafica.model.converter.LocalDateConverter;
+import org.mjhost.anagrafica.model.node.Organization;
+import org.mjhost.anagrafica.model.node.Person;
 import org.neo4j.ogm.annotation.*;
+import org.neo4j.ogm.annotation.typeconversion.Convert;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 @RelationshipEntity(type = "GOT_MARRIED_AT")
@@ -17,15 +21,16 @@ public class Wedding {
     private Person person;
 
     @EndNode
-    private Parish parish;
+    private Organization parish;
 
+    @Convert(LocalDateConverter.class)
     @Property(name = "date")
-    private Date date;
+    private LocalDate date;
 
     @Property(name = "document_record")
     private String documentRecord;
 
-    public Wedding(Person person, Parish parish, Date date, String documentRecord) {
+    public Wedding(Person person, Organization parish, LocalDate date, String documentRecord) {
         setPerson(person);
         setParish(parish);
         setDate(date);
@@ -48,19 +53,19 @@ public class Wedding {
         this.person = person;
     }
 
-    public Parish getParish() {
+    public Organization getParish() {
         return parish;
     }
 
-    public void setParish(Parish parish) {
+    public void setParish(Organization parish) {
         this.parish = parish;
     }
 
-    public Date getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 

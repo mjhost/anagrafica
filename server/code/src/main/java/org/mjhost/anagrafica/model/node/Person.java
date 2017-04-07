@@ -1,7 +1,11 @@
-package org.mjhost.anagrafica.model;
+package org.mjhost.anagrafica.model.node;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import org.mjhost.anagrafica.model.relationship.Address;
+import org.mjhost.anagrafica.model.relationship.Birth;
+import org.mjhost.anagrafica.model.relationship.Death;
+import org.mjhost.anagrafica.model.relationship.Wedding;
 import org.neo4j.ogm.annotation.GraphId;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Property;
@@ -26,8 +30,41 @@ public class Person {
     @Property(name = "sex")
     private String sex;
 
+    @Relationship(type = "BORN_IN", direction = Relationship.OUTGOING)
+    private Birth birth;
+
+    @Relationship(type = "HAS_ADDRESS", direction = Relationship.OUTGOING)
+    private List<Address> addresses = new LinkedList<>();
+
     @Relationship(type = "GOT_MARRIED_AT", direction = Relationship.OUTGOING)
     private List<Wedding> weddings = new LinkedList<>();
+
+    @Relationship(type = "DEAD_IN", direction = Relationship.OUTGOING)
+    private Death death;
+
+
+
+
+
+
+
+
+
+
+//    job_title : "Electrical Engineer",
+//    education_level : "et magnis dis parturient montes",
+//    hobbies : "modellismo",
+//    home_phone : "62-(383)111-2888"
+
+
+
+
+
+
+
+
+
+
 
     public Person() {}
 
@@ -63,11 +100,35 @@ public class Person {
         this.sex = sex;
     }
 
+    public Birth getBirth() {
+        return birth;
+    }
+
+    public void setBirth(Birth birth) {
+        this.birth = birth;
+    }
+
     public List<Wedding> getWeddings() {
         return weddings;
     }
 
     public void addWedding(Wedding wedding) {
         this.weddings.add(wedding);
+    }
+
+    public List<Address> getAddresses() {
+        return addresses;
+    }
+
+    public void addAddress(Address address) {
+        this.addresses.add(address);
+    }
+
+    public Death getDeath() {
+        return death;
+    }
+
+    public void setDeath(Death death) {
+        this.death = death;
     }
 }

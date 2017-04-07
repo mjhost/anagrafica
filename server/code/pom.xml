@@ -6,11 +6,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.mjhost</groupId>
-    <artifactId>parishioners_manager</artifactId>
+    <artifactId>contact_manager</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>Parishioners Manager</name>
+    <name>Contact Manager</name>
     <url>https://github.com/mjhost/anagrafica</url>
 
     <parent>
@@ -28,8 +28,8 @@
     </licenses>
 
     <organization>
-        <name>Neo Technology</name>
-        <url>http://neo4j.com</url>
+        <name>TODO</name>
+        <url>TODO</url>
     </organization>
 
     <developers>
@@ -82,27 +82,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-
-
-
-        <!-- JACKSON -->
-        <!-- For some reason newer versions of jackson cause errors with -->
-        <!-- serialisation of nested objects in graph -->
-        <!--&lt;!&ndash;<dependency>&ndash;&gt;-->
-            <!--&lt;!&ndash;<groupId>com.fasterxml.jackson.core</groupId>&ndash;&gt;-->
-            <!--&lt;!&ndash;<artifactId>jackson-annotations</artifactId>&ndash;&gt;-->
-            <!--&lt;!&ndash;<version>2.5.5</version>&ndash;&gt;-->
-        <!--&lt;!&ndash;</dependency>&ndash;&gt;-->
-        <!--&lt;!&ndash;<dependency>&ndash;&gt;-->
-            <!--&lt;!&ndash;<groupId>com.fasterxml.jackson.core</groupId>&ndash;&gt;-->
-            <!--&lt;!&ndash;<artifactId>jackson-core</artifactId>&ndash;&gt;-->
-            <!--&lt;!&ndash;<version>2.5.5</version>&ndash;&gt;-->
-        <!--&lt;!&ndash;</dependency>&ndash;&gt;-->
-        <!--&lt;!&ndash;<dependency>&ndash;&gt;-->
-            <!--&lt;!&ndash;<groupId>com.fasterxml.jackson.core</groupId>&ndash;&gt;-->
-            <!--&lt;!&ndash;<artifactId>jackson-databind</artifactId>&ndash;&gt;-->
-            <!--&lt;!&ndash;<version>2.5.5</version>&ndash;&gt;-->
-        <!--</dependency>-->
 
         <!-- TEST -->
 

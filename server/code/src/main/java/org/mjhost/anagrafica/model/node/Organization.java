@@ -1,24 +1,16 @@
-package org.mjhost.anagrafica.model;
+package org.mjhost.anagrafica.model.node;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.neo4j.ogm.annotation.GraphId;
 import org.neo4j.ogm.annotation.NodeEntity;
-import org.neo4j.ogm.annotation.Relationship;
-
-import java.util.Collection;
-import java.util.LinkedList;
-import java.util.List;
 
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 @NodeEntity
-public class Parish {
+public class Organization {
 
     @GraphId
     private Long id;
-
-    @Relationship(type = "GOT_MARRIED_AT", direction = Relationship.INCOMING)
-    private List<Wedding> weddings = new LinkedList<>();
 
     private String name;
 
@@ -30,14 +22,6 @@ public class Parish {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Collection<Wedding> getWeddings() {
-        return weddings;
-    }
-
-    public void addWedding(Wedding wedding) {
-        this.weddings.add(wedding);
     }
 
     public String getName() {

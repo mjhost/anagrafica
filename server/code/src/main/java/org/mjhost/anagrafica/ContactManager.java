@@ -11,11 +11,11 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @SpringBootApplication
 @EnableTransactionManagement
 @EnableNeo4jRepositories
-@EntityScan("org.mjhost.anagrafica.model")
-public class ParishionersManager {
+@EntityScan(basePackages = {"org.mjhost.anagrafica.model"})
+public class ContactManager {
 
     public static void main(String[] args) {
-        SpringApplication.run(ParishionersManager.class, args);
+        SpringApplication.run(ContactManager.class, args);
     }
 
     @Bean
