@@ -31,7 +31,7 @@ public class WeddingRestTest extends WeddingRepositoryTest {
         try {
             String queryString = URLEncoder.encode("{people(fn:\"Anne\",ln:\"Ruiz\"){firstName,sex,birthDate}}", "UTF-8");
             mockMvc
-                .perform(get("/people?query=" + queryString))
+                .perform(get("/people/find?query=" + queryString))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", Matchers.hasSize(1)))
                 .andExpect(jsonPath("$[0].firstName").value("Anne"))

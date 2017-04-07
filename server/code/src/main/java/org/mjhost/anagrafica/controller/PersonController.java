@@ -20,7 +20,7 @@ public class PersonController {
         this.personService = personService;
     }
 
-    @RequestMapping("/find")
+    @RequestMapping(path = "/people/find")
     public List<Map<String, Object>> findPeople(@RequestParam(value = "query", required = true) String query) {
 //        TODO: handle exceptions
         try {
