@@ -28,25 +28,13 @@ class Dashboard extends React.Component {
 				<div>
 					<Row>
 						<Col xs={4}>
-							<Panel header="Toolbox">
-								<ul>
-									<li>
-										<Link to="/person/new">Aggiungi persona</Link>
-									</li>
-								</ul>
-							</Panel>
-						</Col>
-						<Col xs={4}>
-							<h2>Eventi prossimi</h2>
-						</Col>
-						<Col xs={4}>
 							<Panel header="Compleanni">
 								<ul>
 									{this.props.data.birthdays.map((item)=>(
 										<li key={`bd${item.id}`}>
 											<Link to={`/person/${item.id}`}>
 												{item.name} {item.years && (
-													<span>({item.years})</span>
+													<span>({item.years} anni)</span>
 												)}
 											</Link>
 										</li>
@@ -61,16 +49,41 @@ class Dashboard extends React.Component {
 										<li key={`w${item.husband.id}`}>
 											<Link to={`/person/${item.husband.id}`}>
 												{item.husband.name}
-											</Link> <Link to={`/person/${item.wife.id}`}>
+											</Link> e <Link to={`/person/${item.wife.id}`}>
 												{item.wife.name}
-											</Link> <span>({item.years})</span>
+											</Link> <span>({item.years} anni)</span>
 										</li>
 									))}
 								</ul>
 							</Panel>
 						</Col>
 						<Col xs={4}>
-							<h2>Altri anniversari</h2>
+							<Panel header="Altri anniversari">
+								<ul>
+									{this.props.data.anniversaries.map(item=>(
+										<li key={`a${item.id}`}>
+											<Link to={`/person/${item.id}`}>
+												{item.name}
+											</Link> - <span>({item.event.relation} {item.event.name} {item.event.type})</span>
+										</li>
+									))}
+								</ul>
+							</Panel>
+						</Col>
+					</Row>
+					<Row>
+						<Col xs={4}>
+							<Panel header="Eventi prossimi">
+								<ul>
+									{this.props.data.events.map(item=>(
+										<li key={`a${item.id}`}>
+											<Link to={`/event/${item.id}`}>
+												{item.name}
+											</Link> <span>({item.date})</span>
+										</li>
+									))}
+								</ul>
+							</Panel>
 						</Col>
 					</Row>
 				</div>
