@@ -1,10 +1,14 @@
 import React from 'react';
 import {Row, Col, Panel} from 'react-bootstrap';
 import {Link} from 'react-router-dom';
+import { connect } from 'react-redux';
 
 import Loader from 'layout/Loader';
 
-export default class Dashboard extends React.Component {
+import {fetchDashboardIfNeeded} from 'actions';
+
+
+class Dashboard extends React.Component {
 
 	constructor(props){
 		super(props);
@@ -13,15 +17,13 @@ export default class Dashboard extends React.Component {
 		};
 	}
 
-	componentWillMount(){
-		//load
-		setTimeout(()=>{
-			this.setState({ready: true});
-		}, 500);
+	componentDidMount(){
+		const { dispatch } = this.props;
+		dispatch(fetchDashboardIfNeeded());
 	}
 
 	render(){
-		if(this.state.ready){
+		if(!this.props.isFetching && this.props.data){
 			return (
 				<div>
 					<Row>
@@ -40,20 +42,32 @@ export default class Dashboard extends React.Component {
 						<Col xs={4}>
 							<Panel header="Compleanni">
 								<ul>
-									<li>
-										<Link to="/person/1">Tizio</Link>
-									</li>
-									<li>
-										<Link to="/person/2">Caio</Link>
-									</li>
-									<li>
-										<Link to="/person/3">Sempronio</Link>
-									</li>
+									{this.props.data.birthdays.map((item)=>(
+										<li key={`bd${item.id}`}>
+											<Link to={`/person/${item.id}`}>
+												{item.name} {item.years && (
+													<span>({item.years})</span>
+												)}
+											</Link>
+										</li>
+									))}
 								</ul>
 							</Panel>
 						</Col>
 						<Col xs={4}>
-							<h2>Matrimoni</h2>
+							<Panel header="Matrimoni">
+								<ul>
+									{this.props.data.weddings.map(item=>(
+										<li key={`w${item.husband.id}`}>
+											<Link to={`/person/${item.husband.id}`}>
+												{item.husband.name}
+											</Link> <Link to={`/person/${item.wife.id}`}>
+												{item.wife.name}
+											</Link> <span>({item.years})</span>
+										</li>
+									))}
+								</ul>
+							</Panel>
 						</Col>
 						<Col xs={4}>
 							<h2>Altri anniversari</h2>
@@ -65,5 +79,20 @@ export default class Dashboard extends React.Component {
 		return (<Loader />);
 	}
 
-
 }
+
+const mapStateToProps = state => {
+	let dashboard = {isFetching:false, didInvalidate:true, ...state.dashboard};
+	console.log("mapping to", dashboard);
+	return {...dashboard};
+};
+
+Dashboard.propTypes = {
+	dispatch: React.PropTypes.func.isRequired,
+	isFetching: React.PropTypes.bool.isRequired,
+	data: React.PropTypes.object,
+	lastUpdated: React.PropTypes.number
+};
+
+export default connect(mapStateToProps)(Dashboard);
+
