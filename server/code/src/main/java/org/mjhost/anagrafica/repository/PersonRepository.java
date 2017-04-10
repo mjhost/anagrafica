@@ -22,6 +22,21 @@ public interface PersonRepository extends GraphRepository<Person> {
         " MATCH " +
             " (p:Person) " +
         " WHERE " +
+            " TOLOWER(p.first_name + \" \" + p.last_name) CONTAINS(TOLOWER({fn})) " +
+        " RETURN " +
+            " p "
+    )
+    List<Person> findByFullName(@NotNull @Param("fn") String fullName);
+
+
+
+
+
+
+    @Query(
+        " MATCH " +
+            " (p:Person) " +
+        " WHERE " +
             " p.first_name = {fn} AND p.last_name = {ln} " +
         " RETURN " +
             " p "

@@ -4,6 +4,7 @@ import graphql.ExecutionResult;
 import org.apache.commons.collections4.CollectionUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mjhost.anagrafica.model.node.Person;
 import org.mjhost.anagrafica.repository.WeddingRepositoryTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -30,6 +31,8 @@ public class WeddingGraphTest extends WeddingRepositoryTest {
 
     @Test
     public void testFindBrideByFirstName() {
+        Person bride = getLady();
+
 //        execute query
         try {
             String graphQLQuery;
@@ -42,7 +45,7 @@ public class WeddingGraphTest extends WeddingRepositoryTest {
             graphQLQuery = String.format(
                 "{%s(%s:\"%s\"){firstName,lastName}}",
                 PersonGraph.OUTPUT_KEY,
-                PersonGraph.FIRST_NAME_KEY, BRIDE_FIRST_NAME
+                PersonGraph.FIRST_NAME_KEY, bride.getFirstName()
             );
             result = graphManager.getGraph().execute(graphQLQuery);
 
@@ -63,8 +66,8 @@ public class WeddingGraphTest extends WeddingRepositoryTest {
             assertThat(list.size(), equalTo(1));
 
             map = list.get(0);
-            assertThat(map.get("firstName"), equalTo(BRIDE_FIRST_NAME));
-            assertThat(map.get("lastName"), equalTo(BRIDE_LAST_NAME));
+            assertThat(map.get("firstName"), equalTo(bride.getFirstName()));
+            assertThat(map.get("lastName"), equalTo(bride.getLastName()));
         } catch (Exception e) {
             fail(e.getLocalizedMessage());
         }
@@ -72,6 +75,8 @@ public class WeddingGraphTest extends WeddingRepositoryTest {
 
     @Test
     public void testFindBrideByLastName() {
+        Person bride = getLady();
+
 //        execute query
         try {
             String graphQLQuery;
@@ -84,7 +89,7 @@ public class WeddingGraphTest extends WeddingRepositoryTest {
             graphQLQuery = String.format(
                 "{%s(%s:\"%s\"){firstName,lastName}}",
                 PersonGraph.OUTPUT_KEY,
-                PersonGraph.LAST_NAME_KEY, BRIDE_LAST_NAME
+                PersonGraph.LAST_NAME_KEY, bride.getLastName()
             );
             result = graphManager.getGraph().execute(graphQLQuery);
 
@@ -105,8 +110,8 @@ public class WeddingGraphTest extends WeddingRepositoryTest {
             assertThat(list.size(), equalTo(1));
 
             map = list.get(0);
-            assertThat(map.get("firstName"), equalTo(BRIDE_FIRST_NAME));
-            assertThat(map.get("lastName"), equalTo(BRIDE_LAST_NAME));
+            assertThat(map.get("firstName"), equalTo(bride.getFirstName()));
+            assertThat(map.get("lastName"), equalTo(bride.getLastName()));
         } catch (Exception e) {
             fail(e.getLocalizedMessage());
         }
@@ -114,6 +119,8 @@ public class WeddingGraphTest extends WeddingRepositoryTest {
 
     @Test
     public void testFindBrideByName() {
+        Person bride = getLady();
+
 //        execute query
         try {
             String graphQLQuery;
@@ -124,11 +131,11 @@ public class WeddingGraphTest extends WeddingRepositoryTest {
 
 //            first ask both fistName and lastName
 //            TODO: any API for building the query???
-             graphQLQuery = String.format(
+            graphQLQuery = String.format(
                 "{%s(%s:\"%s\",%s:\"%s\"){firstName,lastName}}",
-                 PersonGraph.OUTPUT_KEY,
-                 PersonGraph.FIRST_NAME_KEY, BRIDE_FIRST_NAME,
-                 PersonGraph.LAST_NAME_KEY, BRIDE_LAST_NAME
+                PersonGraph.OUTPUT_KEY,
+                PersonGraph.FIRST_NAME_KEY, bride.getFirstName(),
+                PersonGraph.LAST_NAME_KEY, bride.getLastName()
             );
             result = graphManager.getGraph().execute(graphQLQuery);
 
@@ -149,15 +156,15 @@ public class WeddingGraphTest extends WeddingRepositoryTest {
             assertThat(list.size(), equalTo(1));
 
             map = list.get(0);
-            assertThat(map.get("firstName"), equalTo(BRIDE_FIRST_NAME));
-            assertThat(map.get("lastName"), equalTo(BRIDE_LAST_NAME));
+            assertThat(map.get("firstName"), equalTo(bride.getFirstName()));
+            assertThat(map.get("lastName"), equalTo(bride.getLastName()));
 
 //            then ask firstName only
             graphQLQuery = String.format(
                 "{%s(%s:\"%s\",%s:\"%s\"){firstName}}",
                 PersonGraph.OUTPUT_KEY,
-                PersonGraph.FIRST_NAME_KEY, BRIDE_FIRST_NAME,
-                PersonGraph.LAST_NAME_KEY, BRIDE_LAST_NAME
+                PersonGraph.FIRST_NAME_KEY, bride.getFirstName(),
+                PersonGraph.LAST_NAME_KEY, bride.getLastName()
             );
             result = graphManager.getGraph().execute(graphQLQuery);
 
@@ -178,7 +185,7 @@ public class WeddingGraphTest extends WeddingRepositoryTest {
             assertThat(list.size(), equalTo(1));
 
             map = list.get(0);
-            assertThat(map.get("firstName"), equalTo(BRIDE_FIRST_NAME));
+            assertThat(map.get("firstName"), equalTo(bride.getFirstName()));
             assertThat(map.get("lastName"), nullValue());
         } catch (Exception e) {
             fail(e.getLocalizedMessage());
