@@ -1,5 +1,5 @@
 import React from 'react';
-import {Row, Col, Panel} from 'react-bootstrap';
+import {Row, Col, Panel, FormControl, Button, FormGroup, InputGroup} from 'react-bootstrap';
 import {Link} from 'react-router-dom';
 import { connect } from 'react-redux';
 
@@ -27,7 +27,24 @@ class Dashboard extends React.Component {
 			return (
 				<div>
 					<Row>
-						<Col xs={4}>
+						<Col md={6}>
+							<h2>Dashboard: 8 aprile 2017</h2>
+						</Col>
+						<Col md={6}>
+							<FormGroup>
+								<InputGroup>
+									<FormControl bsSize="large" type="text" value='' placeholder="ricerca... "/>
+									<InputGroup.Button>
+										<Button bsSize="large">
+											Cerca
+										</Button>
+									</InputGroup.Button>
+								</InputGroup>
+							</FormGroup>
+						</Col>
+					</Row>
+					<Row>
+						<Col md={4} xs={12}>
 							<Panel header="Compleanni">
 								<ul>
 									{this.props.data.birthdays.map((item)=>(
@@ -42,7 +59,7 @@ class Dashboard extends React.Component {
 								</ul>
 							</Panel>
 						</Col>
-						<Col xs={4}>
+						<Col md={4} xs={12}>
 							<Panel header="Matrimoni">
 								<ul>
 									{this.props.data.weddings.map(item=>(
@@ -57,7 +74,7 @@ class Dashboard extends React.Component {
 								</ul>
 							</Panel>
 						</Col>
-						<Col xs={4}>
+						<Col md={4} xs={12}>
 							<Panel header="Altri anniversari">
 								<ul>
 									{this.props.data.anniversaries.map(item=>(
@@ -72,7 +89,7 @@ class Dashboard extends React.Component {
 						</Col>
 					</Row>
 					<Row>
-						<Col xs={4}>
+						<Col md={4} xs={12}>
 							<Panel header="Eventi prossimi">
 								<ul>
 									{this.props.data.events.map(item=>(
