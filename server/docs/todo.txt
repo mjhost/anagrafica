@@ -1,0 +1,16 @@
++ ricerca per nome/cognome
+per la full text search vedere https://maxdemarzi.com/2016/11/30/enabling-legacy-automatic-full-text-search-on-neo4j-3-x/
+
++ ricerca per via (eventualmente prossimità) (+/-2 civici)
++ ricerca per professione e hobby (tag cloud o una lista)
+(pellegrinaggio fatima e lista partecipanti)
+
+relazioni: parent-child + sibling + matrimonio + god-parent/god-mother-god-child
+
+levare gli anniversari e mettere i decessi, dalla scheda del defunto si accede ai parenti prossimi. il defunto compare solo se ci sono parenti o comunque contatti
+
+pannello Sacramenti a domicilio. (dopo fatto stato fatto)
+
+carrello TODO list. e stampa.
+
+sugli eventi mettiamo un check "nascondi in dashboard" o "mostra in dashboard" (force-hide o force-show)

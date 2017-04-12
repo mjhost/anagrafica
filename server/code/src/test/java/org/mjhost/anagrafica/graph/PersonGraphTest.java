@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mjhost.anagrafica.model.node.Person;
 import org.mjhost.anagrafica.repository.PersonRepositoryTest;
+import org.mjhost.anagrafica.utils.ModelUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -29,97 +30,97 @@ public class PersonGraphTest extends PersonRepositoryTest {
     @Autowired
     private GraphManager graphManager;
 
-    @Test
-    public void testFindByFirstName() {
-        Person bride = getLady();
-
-//        execute query
-        try {
-            String graphQLQuery;
-            ExecutionResult result;
-            Object data;
-            Map<String, Object> map;
-            List<Map<String, Object>> list;
-
-//            TODO: any API for building the query???
-            graphQLQuery = String.format(
-                "{%s(%s:\"%s\"){firstName,lastName}}",
-                PersonGraph.OUTPUT_KEY,
-                PersonGraph.FIRST_NAME_KEY, bride.getFirstName()
-            );
-            result = graphManager.getGraph().execute(graphQLQuery);
-
-            assertThat(CollectionUtils.isEmpty(result.getErrors()), is(true));
-            assertThat(result.getData(), notNullValue());
-
-            data = result.getData();
-            assertThat(data instanceof Map, is(true));
-
-            map = (Map<String, Object>) data;
-            assertThat(map.get(PersonGraph.OUTPUT_KEY), notNullValue());
-
-            data = map.get(PersonGraph.OUTPUT_KEY);
-            assertThat(data instanceof List, is(true));
-
-            list = (List<Map<String, Object>>) data;
-            assertThat(CollectionUtils.isEmpty(list), is(false));
-            assertThat(list.size(), equalTo(1));
-
-            map = list.get(0);
-            assertThat(map.get("firstName"), equalTo(bride.getFirstName()));
-            assertThat(map.get("lastName"), equalTo(bride.getLastName()));
-        } catch (Exception e) {
-            fail(e.getLocalizedMessage());
-        }
-    }
-
-    @Test
-    public void testFindByLastName() {
-        Person bride = getLady();
-
-//        execute query
-        try {
-            String graphQLQuery;
-            ExecutionResult result;
-            Object data;
-            Map<String, Object> map;
-            List<Map<String, Object>> list;
-
-//            TODO: any API for building the query???
-            graphQLQuery = String.format(
-                "{%s(%s:\"%s\"){firstName,lastName}}",
-                PersonGraph.OUTPUT_KEY,
-                PersonGraph.LAST_NAME_KEY, bride.getLastName()
-            );
-            result = graphManager.getGraph().execute(graphQLQuery);
-
-            assertThat(CollectionUtils.isEmpty(result.getErrors()), is(true));
-            assertThat(result.getData(), notNullValue());
-
-            data = result.getData();
-            assertThat(data instanceof Map, is(true));
-
-            map = (Map<String, Object>) data;
-            assertThat(map.get(PersonGraph.OUTPUT_KEY), notNullValue());
-
-            data = map.get(PersonGraph.OUTPUT_KEY);
-            assertThat(data instanceof List, is(true));
-
-            list = (List<Map<String, Object>>) data;
-            assertThat(CollectionUtils.isEmpty(list), is(false));
-            assertThat(list.size(), equalTo(1));
-
-            map = list.get(0);
-            assertThat(map.get("firstName"), equalTo(bride.getFirstName()));
-            assertThat(map.get("lastName"), equalTo(bride.getLastName()));
-        } catch (Exception e) {
-            fail(e.getLocalizedMessage());
-        }
-    }
+//    @Test
+//    public void testFindByFirstName() {
+//        Person bride = getLady();
+//
+////        execute query
+//        try {
+//            String graphQLQuery;
+//            ExecutionResult result;
+//            Object data;
+//            Map<String, Object> map;
+//            List<Map<String, Object>> list;
+//
+////            TODO: any API for building the query???
+//            graphQLQuery = String.format(
+//                "{%s(%s:\"%s\"){firstName,lastName}}",
+//                PersonGraph.OUTPUT_KEY,
+//                PersonGraph.FIRST_NAME_KEY, bride.getFirstName()
+//            );
+//            result = graphManager.getGraph().execute(graphQLQuery);
+//
+//            assertThat(CollectionUtils.isEmpty(result.getErrors()), is(true));
+//            assertThat(result.getData(), notNullValue());
+//
+//            data = result.getData();
+//            assertThat(data instanceof Map, is(true));
+//
+//            map = (Map<String, Object>) data;
+//            assertThat(map.get(PersonGraph.OUTPUT_KEY), notNullValue());
+//
+//            data = map.get(PersonGraph.OUTPUT_KEY);
+//            assertThat(data instanceof List, is(true));
+//
+//            list = (List<Map<String, Object>>) data;
+//            assertThat(CollectionUtils.isEmpty(list), is(false));
+//            assertThat(list.size(), equalTo(1));
+//
+//            map = list.get(0);
+//            assertThat(map.get("firstName"), equalTo(bride.getFirstName()));
+//            assertThat(map.get("lastName"), equalTo(bride.getLastName()));
+//        } catch (Exception e) {
+//            fail(e.getLocalizedMessage());
+//        }
+//    }
+//
+//    @Test
+//    public void testFindByLastName() {
+//        Person bride = getLady();
+//
+////        execute query
+//        try {
+//            String graphQLQuery;
+//            ExecutionResult result;
+//            Object data;
+//            Map<String, Object> map;
+//            List<Map<String, Object>> list;
+//
+////            TODO: any API for building the query???
+//            graphQLQuery = String.format(
+//                "{%s(%s:\"%s\"){firstName,lastName}}",
+//                PersonGraph.OUTPUT_KEY,
+//                PersonGraph.LAST_NAME_KEY, bride.getLastName()
+//            );
+//            result = graphManager.getGraph().execute(graphQLQuery);
+//
+//            assertThat(CollectionUtils.isEmpty(result.getErrors()), is(true));
+//            assertThat(result.getData(), notNullValue());
+//
+//            data = result.getData();
+//            assertThat(data instanceof Map, is(true));
+//
+//            map = (Map<String, Object>) data;
+//            assertThat(map.get(PersonGraph.OUTPUT_KEY), notNullValue());
+//
+//            data = map.get(PersonGraph.OUTPUT_KEY);
+//            assertThat(data instanceof List, is(true));
+//
+//            list = (List<Map<String, Object>>) data;
+//            assertThat(CollectionUtils.isEmpty(list), is(false));
+//            assertThat(list.size(), equalTo(1));
+//
+//            map = list.get(0);
+//            assertThat(map.get("firstName"), equalTo(bride.getFirstName()));
+//            assertThat(map.get("lastName"), equalTo(bride.getLastName()));
+//        } catch (Exception e) {
+//            fail(e.getLocalizedMessage());
+//        }
+//    }
 
     @Test
     public void testFindByName() {
-        Person bride = getLady();
+        Person lady = ModelUtils.getLady();
 
 //        execute query
         try {
@@ -132,10 +133,9 @@ public class PersonGraphTest extends PersonRepositoryTest {
 //            first ask both fistName and lastName
 //            TODO: any API for building the query???
             graphQLQuery = String.format(
-                "{%s(%s:\"%s\",%s:\"%s\"){firstName,lastName}}",
+                "{%s(%s:\"%s\"){firstName,lastName}}",
                 PersonGraph.OUTPUT_KEY,
-                PersonGraph.FIRST_NAME_KEY, bride.getFirstName(),
-                PersonGraph.LAST_NAME_KEY, bride.getLastName()
+                PersonGraph.NAME_KEY, lady.getLastName()
             );
             result = graphManager.getGraph().execute(graphQLQuery);
 
@@ -156,15 +156,14 @@ public class PersonGraphTest extends PersonRepositoryTest {
             assertThat(list.size(), equalTo(1));
 
             map = list.get(0);
-            assertThat(map.get("firstName"), equalTo(bride.getFirstName()));
-            assertThat(map.get("lastName"), equalTo(bride.getLastName()));
+            assertThat(map.get("firstName"), equalTo(lady.getFirstName()));
+            assertThat(map.get("lastName"), equalTo(lady.getLastName()));
 
 //            then ask firstName only
             graphQLQuery = String.format(
-                "{%s(%s:\"%s\",%s:\"%s\"){firstName}}",
+                "{%s(%s:\"%s\"){firstName}}",
                 PersonGraph.OUTPUT_KEY,
-                PersonGraph.FIRST_NAME_KEY, bride.getFirstName(),
-                PersonGraph.LAST_NAME_KEY, bride.getLastName()
+                PersonGraph.NAME_KEY, lady.getLastName()
             );
             result = graphManager.getGraph().execute(graphQLQuery);
 
@@ -185,7 +184,7 @@ public class PersonGraphTest extends PersonRepositoryTest {
             assertThat(list.size(), equalTo(1));
 
             map = list.get(0);
-            assertThat(map.get("firstName"), equalTo(bride.getFirstName()));
+            assertThat(map.get("firstName"), equalTo(lady.getFirstName()));
             assertThat(map.get("lastName"), nullValue());
         } catch (Exception e) {
             fail(e.getLocalizedMessage());

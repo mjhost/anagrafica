@@ -19,39 +19,36 @@ public interface PersonRepository extends GraphRepository<Person> {
 //    derived finders
 
     @Query(
-        " MATCH " +
-            " (p:Person) " +
-        " WHERE " +
-            " TOLOWER(p.first_name + \" \" + p.last_name) CONTAINS(TOLOWER({fn})) " +
-        " RETURN " +
-            " p "
+            " MATCH " +
+                    " (p:Person) " +
+                    " WHERE " +
+                    " p.first_name = {fn} AND p.last_name = {ln} " +
+                    " RETURN " +
+                    " p "
     )
-    List<Person> findByFullName(@NotNull @Param("fn") String fullName);
-
-
-
-
-
+    List<Person> findByFullName(@NotNull @Param("fn") String firstName, @NotNull @Param("ln") String lastName);
 
     @Query(
         " MATCH " +
             " (p:Person) " +
         " WHERE " +
-            " p.first_name = {fn} AND p.last_name = {ln} " +
+            " TOLOWER(p.first_name + \" \" + p.last_name) CONTAINS(TOLOWER({fn})) OR " +
+            " TOLOWER(p.last_name + \" \" + p.first_name) CONTAINS(TOLOWER({fn})) " +
         " RETURN " +
             " p "
     )
-    List<Person> findByName(@NotNull @Param("fn") String firstName, @NotNull @Param("ln") String lastName);
+    List<Person> findByName(@NotNull @Param("fn") String fullName);
 
-    @Query(
-        " MATCH " +
-            " (g:Person)-[mg:GOT_MARRIED_AT]->(p:Organization)<-[mb:GOT_MARRIED_AT]-(b:Person) " +
-        " WHERE " +
-            " b.first_name = {fn} AND b.last_name = {ln} AND mg.document_record = mb.document_record " +
-        " RETURN " +
-            " g AS groom, mg as wedding"
-    )
-    Person findGroomByBrideName(@NotNull @Param("fn") String firstName, @NotNull @Param("ln") String lastName);
+
+//    @Query(
+//        " MATCH " +
+//            " (g:Person)-[mg:GOT_MARRIED_AT]->(p:Organization)<-[mb:GOT_MARRIED_AT]-(b:Person) " +
+//        " WHERE " +
+//            " b.first_name = {fn} AND b.last_name = {ln} AND mg.document_record = mb.document_record " +
+//        " RETURN " +
+//            " g AS groom, mg as wedding"
+//    )
+//    Person findGroomByBrideName(@NotNull @Param("fn") String firstName, @NotNull @Param("ln") String lastName);
 
 
 

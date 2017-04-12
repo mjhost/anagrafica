@@ -2,7 +2,6 @@ package org.mjhost.anagrafica.repository;
 
 import org.junit.After;
 import org.junit.Test;
-import org.mjhost.anagrafica.model.enumeration.AddressType;
 import org.mjhost.anagrafica.model.node.Location;
 import org.mjhost.anagrafica.model.node.Organization;
 import org.mjhost.anagrafica.model.node.Person;
@@ -25,54 +24,54 @@ public class WeddingRepositoryTest extends AbstractRepositoryTest {
 
     protected static final String WEEDING_DOCUMENT_RECORD = "a1s2";
 
-    @Test
-    public void testFindGroomByBrideName() {
-        Person bride = getLady();
-        Person groom = getMan();
-
-        Person p = personRepository.findGroomByBrideName(bride.getFirstName(), bride.getLastName());
-
-        assertThat(p, notNullValue());
-        assertThat(p.getFirstName(), equalTo(groom.getFirstName()));
-        assertThat(p.getLastName(), equalTo(groom.getLastName()));
-        assertThat(p.getSex(), equalTo(groom.getSex()));
-
-        assertThat(p.getWeddings(), notNullValue());
-        assertThat(p.getWeddings().size(), equalTo(1));
-
-        Wedding wedding = p.getWeddings().get(0);
-        assertThat(wedding.getDate(), equalTo(WEEDING_DATE));
-        assertThat(wedding.getDocumentRecord(), equalTo(WEEDING_DOCUMENT_RECORD));
-    }
+//    @Test
+//    public void testFindGroomByBrideName() {
+//        Person bride = getLady();
+//        Person groom = getMan();
+//
+//        Person p = personRepository.findGroomByBrideName(bride.getFirstName(), bride.getLastName());
+//
+//        assertThat(p, notNullValue());
+//        assertThat(p.getFirstName(), equalTo(groom.getFirstName()));
+//        assertThat(p.getLastName(), equalTo(groom.getLastName()));
+//        assertThat(p.getSex(), equalTo(groom.getSex()));
+//
+//        assertThat(p.getWeddings(), notNullValue());
+//        assertThat(p.getWeddings().size(), equalTo(1));
+//
+//        Wedding wedding = p.getWeddings().get(0);
+//        assertThat(wedding.getDate(), equalTo(WEEDING_DATE));
+//        assertThat(wedding.getDocumentRecord(), equalTo(WEEDING_DOCUMENT_RECORD));
+//    }
 
     @Override
     public void initDatabase() {
 //        populate Neo4J
 
-//        nodes
-        Location home = getHomeLocation();
-        getLocationRepository().save(home);
-
-        Person bride = getLady();
-        getPersonRepository().save(bride);
-
-        Person groom = getMan();
-        getPersonRepository().save(groom);
-
-        Organization parish = getParish();
-        getOrganizationRepository().save(parish);
-
-//        relationships
-        groom.setBirth(new Birth(groom, home, LocalDateTime.now()));
-        groom.addAddress(new Address(groom, home, LocalDateTime.now(), AddressType.HOME));
-        groom.addWedding(new Wedding(groom, parish, WEEDING_DATE, WEEDING_DOCUMENT_RECORD));
-
-        bride.setBirth(new Birth(bride, home, LocalDateTime.now()));
-        bride.addAddress(new Address(bride, home, LocalDateTime.now(), AddressType.HOME));
-        bride.addWedding(new Wedding(groom, parish, WEEDING_DATE, WEEDING_DOCUMENT_RECORD));
-        bride.setDeath(new Death(bride, home, LocalDateTime.now()));
-
-        personRepository.save(Arrays.asList(groom, bride));
+////        nodes
+//        Location home = getHomeLocation();
+//        getLocationRepository().save(home);
+//
+//        Person bride = getLady();
+//        getPersonRepository().save(bride);
+//
+//        Person groom = getMan();
+//        getPersonRepository().save(groom);
+//
+//        Organization parish = getParish();
+//        getOrganizationRepository().save(parish);
+//
+////        relationships
+//        groom.setBirth(new Birth(groom, home, LocalDateTime.now()));
+//        groom.addAddress(new Address(groom, home, LocalDateTime.now(), AddressType.HOME));
+//        groom.addWedding(new Wedding(groom, parish, WEEDING_DATE, WEEDING_DOCUMENT_RECORD));
+//
+//        bride.setBirth(new Birth(bride, home, LocalDateTime.now()));
+//        bride.addAddress(new Address(bride, home, LocalDateTime.now(), AddressType.HOME));
+//        bride.addWedding(new Wedding(groom, parish, WEEDING_DATE, WEEDING_DOCUMENT_RECORD));
+//        bride.setDeath(new Death(bride, home, LocalDateTime.now()));
+//
+//        personRepository.save(Arrays.asList(groom, bride));
     }
 
     @After

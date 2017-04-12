@@ -1,6 +1,6 @@
 package org.mjhost.anagrafica.model.enumeration;
 
-public enum AddressType {
+public enum ContactType {
 
     HOME,
 

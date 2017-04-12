@@ -3,19 +3,15 @@ package org.mjhost.anagrafica.model.relationship;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.mjhost.anagrafica.model.converter.ContactTypeConverter;
-import org.mjhost.anagrafica.model.converter.LocalDateTimeConverter;
 import org.mjhost.anagrafica.model.enumeration.ContactType;
-import org.mjhost.anagrafica.model.node.Location;
+import org.mjhost.anagrafica.model.node.Contact;
 import org.mjhost.anagrafica.model.node.Person;
 import org.neo4j.ogm.annotation.*;
 import org.neo4j.ogm.annotation.typeconversion.Convert;
-import org.springframework.format.annotation.DateTimeFormat;
-
-import java.time.LocalDateTime;
 
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-@RelationshipEntity(type = "HAS_ADDRESS")
-public class Address {
+@RelationshipEntity(type = "HAS_REFERENCE")
+public class Reference {
 
     @GraphId
     private Long id;
@@ -24,21 +20,15 @@ public class Address {
     private Person person;
 
     @EndNode
-    private Location location;
-
-    @Convert(LocalDateTimeConverter.class)
-    @Property(name = "since")
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-    private LocalDateTime since;
+    private Contact contact;
 
     @Convert(ContactTypeConverter.class)
     @Property(name = "type")
     private ContactType type;
 
-    public Address(Person person, Location location, LocalDateTime since, ContactType type) {
+    public Reference(Person person, Contact contact, ContactType type) {
         setPerson(person);
-        setLocation(location);
-        setSince(since);
+        setContact(contact);
         setType(type);
     }
 
@@ -58,20 +48,12 @@ public class Address {
         this.person = person;
     }
 
-    public Location getLocation() {
-        return location;
+    public Contact getContact() {
+        return contact;
     }
 
-    public void setLocation(Location location) {
-        this.location = location;
-    }
-
-    public LocalDateTime getSince() {
-        return since;
-    }
-
-    public void setSince(LocalDateTime since) {
-        this.since = since;
+    public void setContact(Contact contact) {
+        this.contact = contact;
     }
 
     public ContactType getType() {
