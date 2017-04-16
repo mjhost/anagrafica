@@ -44,8 +44,23 @@ export const persona_8 = {
 	name: "Zippy",
 	surname: "Zappy",
 	birth: "1980-11-05",
+	birthplace: "Roma",
+	hobby: ["nuoto", "fotografia"],
+	job: ["barista"],
+	address: {
+		street: "via da qualche parte",
+		number: "15",
+		cap: '00100',
+		city: "roma",
+		country: "italia"
+	},
 	sex:"F",
 	relatives: [
 		{id:10, name:"Granpa", surname:"Zappy", relation: {type:"parent", hops:2}}
+	],
+	contacts: [
+		{type:"tel", data:"06-06060606"},
+		{type:"cell", data:"338-1111111"},
+		{type:"email", data:"example@example.com"}
 	]
 };

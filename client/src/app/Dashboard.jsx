@@ -7,7 +7,7 @@ import {Link} from 'react-router-dom';
 
 import Loader from 'layout/Loader';
 
-import {fetchDashboardIfNeeded} from 'actions';
+import {fetchDashboardIfNeeded, addToVisits} from 'actions';
 
 
 class Dashboard extends React.Component {
@@ -17,6 +17,12 @@ class Dashboard extends React.Component {
 		this.state = {
 			ready:false
 		};
+		this.markTodo = this.markTodo.bind(this);
+	}
+
+	markTodo(person){
+		const { dispatch } = this.props;
+		dispatch(addToVisits(person));
 	}
 
 	componentDidMount(){
@@ -48,7 +54,7 @@ class Dashboard extends React.Component {
 					<Row>
 						<Col md={4} xs={12}>
 							<Panel header="Compleanni">
-								<ul>
+								<ul className="list-unstyled">
 									{this.props.data.birthdays.map((item)=>(
 										<li key={`bd${item.id}`}>
 											<Link to={`/person/${item.id}`}>
@@ -63,7 +69,7 @@ class Dashboard extends React.Component {
 						</Col>
 						<Col md={4} xs={12}>
 							<Panel header="Matrimoni">
-								<ul>
+								<ul className="list-unstyled">
 									{this.props.data.weddings.map(item=>(
 										<li key={`w${item.husband.id}`}>
 											<Link to={`/person/${item.husband.id}`}>
@@ -78,7 +84,7 @@ class Dashboard extends React.Component {
 						</Col>
 						<Col md={4} xs={12}>
 							<Panel header="Decessi">
-								<ul>
+								<ul className="list-unstyled">
 									{this.props.data.deaths.map(item=>(
 										<li key={`a${item.id}`}>
 											<Link to={`/person/${item.id}`}>
@@ -93,12 +99,28 @@ class Dashboard extends React.Component {
 					<Row>
 						<Col md={4} xs={12}>
 							<Panel header="Eventi prossimi">
-								<ul>
+								<ul className="list-unstyled">
 									{this.props.data.events.map(item=>(
 										<li key={`a${item.id}`}>
 											<Link to={`/event/${item.id}`}>
 												{item.name}
 											</Link> <span>({item.date})</span>
+										</li>
+									))}
+								</ul>
+							</Panel>
+						</Col>
+						<Col md={4} xs={12}>
+							<Panel header="Richieste a domicilio">
+								<ul className="list-unstyled">
+									{this.props.data.todo.map(item=>(
+										<li key={`a${item.id}`}>
+											<Button bsSize="xsmall" onClick={()=>{this.markTodo(item);}} >
+												Visita oggi
+											</Button>
+											{} <Link to={`/person/${item.id}`}>
+												{item.name}
+											</Link>
 										</li>
 									))}
 								</ul>

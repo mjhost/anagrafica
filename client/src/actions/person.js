@@ -1,7 +1,7 @@
 import Promise from 'promise';
 import * as mocks from './mocks';
 
-const log = true;
+const log = false;
 
 export const REQUEST_PERSON = 'REQUEST_PERSON';
 export const RECEIVE_PERSON = 'RECEIVE_PERSON';

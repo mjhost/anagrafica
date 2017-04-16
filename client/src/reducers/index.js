@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 import { REQUEST_DASHBOARD, RECEIVE_DASHBOARD } from '../actions';
 import { REQUEST_PERSON, RECEIVE_PERSON } from '../actions';
+import { ADD_VISIT } from '../actions';
 
 const defaultDashboard = {
 	isFetching: false,
@@ -52,9 +53,22 @@ const persons = (state = [], action) => {
 	}
 };
 
+const visits = (state = [], action) => {
+	switch (action.type) {
+		case ADD_VISIT:
+			if(state.some(p=>(p.id === action.person.id))){
+				return state;
+			}
+			return state.concat(action.person);
+		default:
+			return state;
+	}
+};
+
 const rootReducers = combineReducers({
 	dashboard,
-	persons
+	persons,
+	visits
 });
 
 export default rootReducers;

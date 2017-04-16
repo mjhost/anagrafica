@@ -2,12 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import {Button, Row, Col, Panel} from 'react-bootstrap';
+import {Button, ButtonGroup, Row, Col, Panel} from 'react-bootstrap';
 import {Link} from 'react-router-dom';
 
 import Loader from 'layout/Loader';
 
-import {fetchPersonIfNeeded} from 'actions';
+import {fetchPersonIfNeeded, addToVisits} from 'actions';
 
 
 class Person extends React.Component{
@@ -17,6 +17,12 @@ class Person extends React.Component{
 		this.state = {
 			ready:false
 		};
+		this.markTodo = this.markTodo.bind(this);
+	}
+
+	markTodo(){
+		const {dispatch} = this.props;
+		dispatch(addToVisits(this.props.data));
 	}
 
 	componentDidMount(){
@@ -38,16 +44,57 @@ class Person extends React.Component{
 		console.log("Person rendering with", this.props);
 		return (
 			<div>
-				<Row>
-					<Col md={6}>
-						<h1>
-							{person.name} {person.surname}
-							{} <Button href={`#/person/${person.id}/edit`}>Modifica</Button>
-						</h1>
-					</Col>
-				</Row>
+				<div className="page-header">
+					<ButtonGroup className="pull-right">
+						<Button href={`#/person/${person.id}/edit`}>Modifica</Button>
+						{!person.death && (
+							<Button onClick={this.markTodo}>Visita oggi</Button>
+						)}
+					</ButtonGroup>
+					<h1>
+						{person.name} {person.surname}
+					</h1>
+				</div>
 				<Row>
 					<Col md={8}>
+						<Panel>
+							<dl className="dl-horizontal">
+								{person.address && (
+									<div>
+										<dt>Indirizzo</dt>
+										<dd><Link to={"streets/" + person.address.street.replace(/\s/g, "-")}>{person.address.street}, {person.address.number}</Link></dd>
+									</div>
+								)}
+								<dt>Nascita</dt>
+								<dd>{person.birthplace} {person.birth}</dd>
+								{person.job && (
+									<div>
+										<dt>Lavoro</dt>
+										<dd>{person.job.map(j=>(
+												<span key={j}> <Link to={`/jobs/${j}`}>{j}</Link></span>
+											))}
+										</dd>
+									</div>
+								)}
+								{person.hobby && (
+									<div>
+										<dt>Hobby</dt>
+										<dd>{person.hobby.map(h=>(
+												<span key={h}> <Link to={`/hobbies/${h}`}>{h}</Link></span>
+											))}
+										</dd>
+									</div>
+								)}
+								{person.death && (
+									<div>
+										<dt>Morte</dt>
+										<dd>{person.death}</dd>
+									</div>
+								)}
+								<dt></dt>
+								<dd></dd>
+							</dl>
+						</Panel>
 					</Col>
 					<Col md={4}>
 						<Panel header="Parenti">
