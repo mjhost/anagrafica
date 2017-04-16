@@ -1,3 +1,8 @@
+const today = new Date();
+const thisMonth = ("00" + (today.getMonth()+1)).substr(-2);
+const thisDay = ("00" + (today.getDate())).substr(-2);
+const thisYear = today.getFullYear();
+
 export const dashboard = {
 	"birthdays": [
 		{id:1, name: "Tizio", years:45},
@@ -8,10 +13,39 @@ export const dashboard = {
 		{husband:{id:4, name:"marito 1"}, wife:{id:5, name:"moglie 1"}, years:15},
 		{husband:{id:6, name:"marito 2"}, wife:{id:7, name:"moglie 2"}, years:50}
 	],
-	"anniversaries": [
-		{id:8, name:"Zippy Zappy", event:{type:"DEATH", relation:"NONNO", name:"Zippy Granpa"}}
+	"deaths": [
+		{id:10, name:"Granpa", surname:"Zappy", years:10, relatives:[
+			{id:8, name:"Zippy", surname:"Zappy"}
+		]}
 	],
 	"events": [
-		{id:9, name:"evento importante", date:"2017-05-04"}
+		{id:9, name:"Pellegrinaggio a fatima", date:thisYear + "-05-04", people:5}
+	],
+	"todo":[
+		{id:2, name:"Sempronio"},
+		{id:7, name:"moglie 2"}
+	]
+};
+
+export const persona_10 = {
+	id:10,
+	name: "Granpa",
+	surname: "Zappy",
+	birth: "1910-03-05",
+	death: [2007, thisMonth, thisDay].join("-"),
+	sex:"M",
+	relatives: [
+		{id:8, name:"Zippy", surname:"Zappy", relation:{type:"child", hops:2}}
+	]
+};
+
+export const persona_8 = {
+	id:8,
+	name: "Zippy",
+	surname: "Zappy",
+	birth: "1980-11-05",
+	sex:"F",
+	relatives: [
+		{id:10, name:"Granpa", surname:"Zappy", relation: {type:"parent", hops:2}}
 	]
 };

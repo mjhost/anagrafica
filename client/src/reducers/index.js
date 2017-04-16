@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 import { REQUEST_DASHBOARD, RECEIVE_DASHBOARD } from '../actions';
+import { REQUEST_PERSON, RECEIVE_PERSON } from '../actions';
 
 const defaultDashboard = {
 	isFetching: false,
@@ -27,8 +28,33 @@ const dashboard = (state = defaultDashboard, action) => {
 	}
 };
 
+const persons = (state = [], action) => {
+	let listWithoutThisPerson = state.slice(0).filter(p=>(p.id !== action.id));
+	switch (action.type) {
+		case REQUEST_PERSON:
+			listWithoutThisPerson.push({
+				id: action.id,
+				isFetching: true,
+				didInvalidate: false
+			});
+			return listWithoutThisPerson;
+		case RECEIVE_PERSON:
+			listWithoutThisPerson.push({
+				id: action.id,
+				isFetching: false,
+				didInvalidate: false,
+				data: action.data,
+				lastUpdated: action.receivedAt
+			});
+			return listWithoutThisPerson;
+		default:
+			return state;
+	}
+};
+
 const rootReducers = combineReducers({
-	dashboard
+	dashboard,
+	persons
 });
 
 export default rootReducers;

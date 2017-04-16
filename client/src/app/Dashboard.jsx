@@ -1,7 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+
 import {Row, Col, Panel, FormControl, Button, FormGroup, InputGroup} from 'react-bootstrap';
 import {Link} from 'react-router-dom';
-import { connect } from 'react-redux';
 
 import Loader from 'layout/Loader';
 
@@ -75,13 +77,13 @@ class Dashboard extends React.Component {
 							</Panel>
 						</Col>
 						<Col md={4} xs={12}>
-							<Panel header="Altri anniversari">
+							<Panel header="Decessi">
 								<ul>
-									{this.props.data.anniversaries.map(item=>(
+									{this.props.data.deaths.map(item=>(
 										<li key={`a${item.id}`}>
 											<Link to={`/person/${item.id}`}>
-												{item.name}
-											</Link> - <span>({item.event.relation} {item.event.name} {item.event.type})</span>
+												{item.name} {item.surname}
+											</Link> - <span>({item.years} anni)</span>
 										</li>
 									))}
 								</ul>
@@ -113,15 +115,15 @@ class Dashboard extends React.Component {
 
 const mapStateToProps = state => {
 	let dashboard = {isFetching:false, didInvalidate:true, ...state.dashboard};
-	console.log("mapping to", dashboard);
-	return {...dashboard};
+	// console.log("mapping to", dashboard);
+	return dashboard;
 };
 
 Dashboard.propTypes = {
-	dispatch: React.PropTypes.func.isRequired,
-	isFetching: React.PropTypes.bool.isRequired,
-	data: React.PropTypes.object,
-	lastUpdated: React.PropTypes.number
+	dispatch: PropTypes.func.isRequired,
+	isFetching: PropTypes.bool.isRequired,
+	data: PropTypes.object,
+	lastUpdated: PropTypes.number
 };
 
 export default connect(mapStateToProps)(Dashboard);
