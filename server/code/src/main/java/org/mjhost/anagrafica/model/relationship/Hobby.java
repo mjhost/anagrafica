@@ -27,7 +27,9 @@ public class Hobby {
     @Property(name = "since")
     private LocalDateTime since;
 
-    public Hobby() {}
+    public Hobby() {
+//        DO NOT DELETE
+    }
 
     public Hobby(Person person, Subject subject, LocalDateTime since) {
         setPerson(person);

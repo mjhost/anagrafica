@@ -27,6 +27,10 @@ public class Employment {
     @Property(name = "since")
     private LocalDateTime since;
 
+    public Employment() {
+//        DO NOT DELETE
+    }
+
     public Employment(Person person, Job job, LocalDateTime since) {
         setPerson(person);
         setJob(job);

@@ -61,7 +61,7 @@ public class ModelUtils {
         lady.setFirstName("Anne");
         lady.setLastName("Ruiz");
         lady.setSex("F");
-        lady.setTitle("Electrical Engineer");
+        lady.setTitle("Mrs");
         lady.setEducationLevel(EducationLevel.BACHELOR_DEGREE);
         lady.setBirth(new Birth(lady, homeLocation, LocalDateTime.now()));
         lady.addAddress(new Address(lady, homeLocation, LocalDateTime.now().minusMonths(6), ContactType.HOME));

@@ -28,6 +28,8 @@ public class PersonGraph {
 
     public static final String HOBBY_KEY = "hobby";
 
+    public static final String EMPLOYMENT_KEY = "employment";
+
     @Autowired
     private PersonRepository personRepository;
 
@@ -38,6 +40,7 @@ public class PersonGraph {
         nameToQueryMap = new HashMap<>();
         nameToQueryMap.put("findByName", findByName());
         nameToQueryMap.put("findByHobby", findByHobby());
+        nameToQueryMap.put("findByEmployment", findByEmployment());
     }
 
     public GraphQLObjectType getQuery(String name) {
@@ -88,9 +91,20 @@ public class PersonGraph {
                     }
                 )
             )
+            .field(f -> f
+                .name("employments")
+                .type(new GraphQLList(GraphQLString))
+                .description("TODO")
+                .dataFetcher(
+                    environment -> {
+//                        environment.getSource() is the value of the surrounding object. In this case described by objectType
+                        List<String> employments = new LinkedList<>();
+                        ((Person) environment.getSource()).getEmployments().stream().forEach(e -> employments.add(e.getJob().getName()));
+                        return employments;
+                    }
+                )
+            )
             .build();
-
-//        WARN: WHAT ABOUT RELATIONSHIPS???
     }
 
     public GraphQLObjectType findByName() {
@@ -102,7 +116,7 @@ public class PersonGraph {
 //                the name of the key in the output map
                 .name(OUTPUT_KEY)
                 .description("The output of the query will be an instance of person type")
-//                query must return many person type
+//                query must return a list of person type
                 .type(new GraphQLList(person()))
 //                query must expect some input params
                 .argument(a -> a
@@ -135,7 +149,7 @@ public class PersonGraph {
 //                the name of the key in the output map
                 .name(OUTPUT_KEY)
                 .description("The output of the query will be an instance of person type")
-//                query must return a single person type
+//                query must return a list of person type
                 .type(new GraphQLList(person()))
 //                query must expect some input params
                 .argument(a -> a
@@ -149,6 +163,37 @@ public class PersonGraph {
                     Object hobby = arguments.get(HOBBY_KEY);
                     if(!StringUtils.isEmpty(hobby)) {
                         return personRepository.findByHobby(TrimUtils.smartTrim((String) hobby));
+                    } else {
+                        return null;
+                    }
+                })
+            )
+            .build();
+    }
+
+    public GraphQLObjectType findByEmployment() {
+        return newObject()
+//            query name
+            .name("findByEmployment")
+//            field is what the query has to return
+            .field(f -> f
+//                the name of the key in the output map
+                .name(OUTPUT_KEY)
+                .description("The output of the query will be an instance of person type")
+//                query must return a list of person type
+                .type(new GraphQLList(person()))
+//                query must expect some input params
+                .argument(a -> a
+                    .name(EMPLOYMENT_KEY)
+                    .description("Person employment name as an input parameter")
+                    .type(GraphQLString)
+                )
+//                data fetcher specifies the component in charge of retrieving the actual data to be returned
+                .dataFetcher(environment -> {
+                    Map<String, Object> arguments = environment.getArguments();
+                    Object employment = arguments.get(EMPLOYMENT_KEY);
+                    if(!StringUtils.isEmpty(employment)) {
+                        return personRepository.findByEmployment(TrimUtils.smartTrim((String) employment));
                     } else {
                         return null;
                     }
