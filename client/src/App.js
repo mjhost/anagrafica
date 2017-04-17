@@ -8,6 +8,7 @@ import Header 			from 'layout/Header';
 import Is404 			from 'layout/Is404';
 
 import Dashboard 				from 'app/Dashboard';
+import Visits 					from 'app/Visits';
 import {Person, EditPerson} 	from 'app/person';
 
 class App extends Component {
@@ -28,6 +29,7 @@ class App extends Component {
 							<Route path="/parish/:id" component={ParishDetails} />
 							<Route path="/organization/:id" component={OrganizationDetails} />
 */}
+							<Route exact path="/visits" component={Visits} />
 							<Route component={Is404} />
 						</Switch>
 					</Grid>

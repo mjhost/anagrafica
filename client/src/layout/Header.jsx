@@ -1,5 +1,7 @@
 import React from 'react';
-import {Navbar, Nav, NavItem} from 'react-bootstrap';
+import PropTypes from 'prop-types';
+import {Navbar, Nav, NavItem, NavDropdown, MenuItem} from 'react-bootstrap';
+import {Badge} from 'react-bootstrap';
 import {Link} from 'react-router-dom';
 import { withRouter } from 'react-router';
 
@@ -27,8 +29,18 @@ class Header extends React.Component {
 				</Navbar.Header>
 				<Navbar.Collapse>
 					<Nav>
-						<LinkContainer to="/person/new">
-							<NavItem eventKey={0}>Aggiungi persona</NavItem>
+						<NavDropdown eventKey={1} title="Amministrazione" id="nav-admin">
+							<LinkContainer to="/person/new">
+								<MenuItem eventKey={1.1}>Aggiungi persona</MenuItem>
+							</LinkContainer>
+						</NavDropdown>
+					</Nav>
+					<Nav pullRight>
+						<LinkContainer to="/visits">
+							<NavItem eventKey={2}>
+								Visite programmate
+								{} <Badge>5</Badge>
+							</NavItem>
 						</LinkContainer>
 					</Nav>
 				</Navbar.Collapse>
@@ -38,7 +50,7 @@ class Header extends React.Component {
 }
 
 Header.propTypes = {
-	history: React.PropTypes.object.isRequired
+	history: PropTypes.object.isRequired
 };
 
 export default withRouter(Header);
