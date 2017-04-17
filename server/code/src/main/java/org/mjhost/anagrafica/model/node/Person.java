@@ -4,10 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.mjhost.anagrafica.model.converter.EducationLevelConverter;
 import org.mjhost.anagrafica.model.enumeration.EducationLevel;
-import org.mjhost.anagrafica.model.relationship.Address;
-import org.mjhost.anagrafica.model.relationship.Birth;
-import org.mjhost.anagrafica.model.relationship.Death;
-import org.mjhost.anagrafica.model.relationship.Reference;
+import org.mjhost.anagrafica.model.relationship.*;
 import org.neo4j.ogm.annotation.GraphId;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Property;
@@ -33,15 +30,12 @@ public class Person {
     @Property(name = "sex")
     private String sex;
 
-    @Property(name = "job_title")
-    private String jobTitle;
+    @Property(name = "title")
+    private String title;
 
     @Convert(EducationLevelConverter.class)
     @Property(name = "education_level")
     private EducationLevel educationLevel;
-
-    @Property(name = "hobbies")
-    private Set<String> hobbies;
 
     @Relationship(type = "BORN_IN", direction = Relationship.OUTGOING)
     private Birth birth;
@@ -51,6 +45,12 @@ public class Person {
 
     @Relationship(type = "HAS_REFERENCES", direction = Relationship.OUTGOING)
     private Set<Reference> references = new HashSet<>();
+
+    @Relationship(type = "IS_EMPLOYED_AS", direction = Relationship.OUTGOING)
+    private Set<Employment> employments = new HashSet<>();
+
+    @Relationship(type = "HAS_HOBBY", direction = Relationship.OUTGOING)
+    private Set<Hobby> hobbies = new HashSet<>();
 
 //    @Relationship(type = "GOT_MARRIED_AT", direction = Relationship.OUTGOING)
 //    private Set<Wedding> weddings = new HashSet<>();
@@ -92,12 +92,12 @@ public class Person {
         this.sex = sex;
     }
 
-    public String getJobTitle() {
-        return jobTitle;
+    public String getTitle() {
+        return title;
     }
 
-    public void setJobTitle(String jobTitle) {
-        this.jobTitle = jobTitle;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public EducationLevel getEducationLevel() {
@@ -106,14 +106,6 @@ public class Person {
 
     public void setEducationLevel(EducationLevel educationLevel) {
         this.educationLevel = educationLevel;
-    }
-
-    public Set<String> getHobbies() {
-        return hobbies;
-    }
-
-    public void setHobbies(Set<String> hobbies) {
-        this.hobbies = hobbies;
     }
 
     public Birth getBirth() {
@@ -146,6 +138,22 @@ public class Person {
 
     public void addReference(Reference reference) {
         this.references.add(reference);
+    }
+
+    public Set<Employment> getEmployments() {
+        return employments;
+    }
+
+    public void addEmployment(Employment employment) {
+        this.employments.add(employment);
+    }
+
+    public Set<Hobby> getHobbies() {
+        return hobbies;
+    }
+
+    public void addHobby(Hobby hobby) {
+        this.hobbies.add(hobby);
     }
 
     public Death getDeath() {

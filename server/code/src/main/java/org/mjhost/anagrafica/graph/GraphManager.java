@@ -13,26 +13,9 @@ public class GraphManager {
     @Autowired
     private PersonGraph personGraph;
 
-    private GraphQLSchema schema;
+    public GraphQL getGraph(String queryName) {
+        GraphQLSchema schema = newSchema().query(personGraph.getQuery(queryName)).build();
 
-    private GraphQL graph;
-
-    public GraphQLSchema getSchema() {
-        if (schema == null) {
-            schema = newSchema()
-//                person graph queries
-                .query(personGraph.findByName())
-                .build();
-        }
-
-        return schema;
-    }
-
-    public GraphQL getGraph() {
-        if (graph == null) {
-            graph = new GraphQL(getSchema());
-        }
-
-        return graph;
+        return new GraphQL(schema);
     }
 }

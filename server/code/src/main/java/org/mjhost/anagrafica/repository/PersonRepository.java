@@ -16,15 +16,17 @@ public interface PersonRepository extends GraphRepository<Person> {
     List<Person> findByFirstName(@NotNull @Param("firstName") String firstName);
 
     List<Person> findByLastName(@NotNull @Param("lastName") String lastName);
+
+    List<Person> findBySex(@NotNull @Param("sex") String sex);
 //    derived finders
 
     @Query(
-            " MATCH " +
-                    " (p:Person) " +
-                    " WHERE " +
-                    " p.first_name = {fn} AND p.last_name = {ln} " +
-                    " RETURN " +
-                    " p "
+        " MATCH " +
+            " (p:Person) " +
+        " WHERE " +
+            " p.first_name = {fn} AND p.last_name = {ln} " +
+        " RETURN " +
+            " p "
     )
     List<Person> findByFullName(@NotNull @Param("fn") String firstName, @NotNull @Param("ln") String lastName);
 
@@ -37,7 +39,21 @@ public interface PersonRepository extends GraphRepository<Person> {
         " RETURN " +
             " p "
     )
-    List<Person> findByName(@NotNull @Param("fn") String fullName);
+    List<Person> findByName(@NotNull @Param("fn") String name);
+
+    @Query(
+        " MATCH " +
+            " (p:Person)-[h:HAS_HOBBY]->(s:Subject) " +
+        " WHERE " +
+            " TOLOWER(s.name) CONTAINS TOLOWER({ho}) " +
+        " RETURN " +
+            " p, h, s "
+    )
+    List<Person> findByHobby(@NotNull @Param("ho") String hobby);
+
+
+
+
 
 
 //    @Query(
