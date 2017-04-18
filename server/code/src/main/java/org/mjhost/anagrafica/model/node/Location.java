@@ -13,8 +13,8 @@ public class Location {
     @GraphId
     private Long id;
 
-    @Property(name = "address")
-    private String address;
+    @Property(name = "street")
+    private String street;
 
     @Property(name = "zip_code")
     private String zipCode;
@@ -41,12 +41,12 @@ public class Location {
         this.id = id;
     }
 
-    public String getAddress() {
-        return address;
+    public String getStreet() {
+        return street;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setStreet(String street) {
+        this.street = street;
     }
 
     public String getZipCode() {

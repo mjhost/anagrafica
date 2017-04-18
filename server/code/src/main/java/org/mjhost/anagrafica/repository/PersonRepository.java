@@ -47,9 +47,8 @@ public interface PersonRepository extends GraphRepository<Person> {
         " WHERE " +
             " TOLOWER(s.name) CONTAINS TOLOWER({ho}) " +
         " WITH p MATCH " +
-            " (p)-[h:HAS_HOBBY]->(s:Subject) " +
-        " RETURN " +
-            " p, h, s "
+            " (p)-[r]->(t) " +
+        " RETURN p, r, t"
     )
     List<Person> findByHobby(@NotNull @Param("ho") String hobby);
 
@@ -59,8 +58,8 @@ public interface PersonRepository extends GraphRepository<Person> {
         " WHERE " +
             " TOLOWER(j.name) CONTAINS TOLOWER({em}) " +
         " WITH p MATCH " +
-            " (p)-[e:IS_EMPLOYED_AS]->(j:Job) " +
-        " RETURN p, e, j"
+            " (p)-[r]->(t) " +
+        " RETURN p, r, t"
     )
     List<Person> findByEmployment(@NotNull @Param("em") String employment);
 

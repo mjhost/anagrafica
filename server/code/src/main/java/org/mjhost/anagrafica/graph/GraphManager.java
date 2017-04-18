@@ -7,6 +7,8 @@ import graphql.schema.GraphQLSchema;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -18,6 +20,9 @@ public class GraphManager {
 
     @Autowired
     private PersonGraph personGraph;
+
+    @Autowired
+    private LocationGraph locationGraph;
 
     public GraphQL getGraph(String queryName) {
 //        TODO: externalize constants
@@ -32,7 +37,11 @@ public class GraphManager {
             new ThreadPoolExecutor.CallerRunsPolicy()
         );
 
-        GraphQLSchema schema = newSchema().query(personGraph.getQuery(queryName)).build();
+        GraphQLSchema schema = newSchema()
+            .query(personGraph.getQuery(queryName))
+            .build(new HashSet<>(Arrays.asList(
+                locationGraph.location(), personGraph.person()))
+            );
 
         return new GraphQL(schema, new ExecutorServiceExecutionStrategy(threadPoolExecutor), new SimpleExecutionStrategy());
     }

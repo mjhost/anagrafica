@@ -35,6 +35,10 @@ public class Address {
     @Property(name = "type")
     private ContactType type;
 
+    public Address() {
+//        DO NOT DELETE
+    }
+
     public Address(Person person, Location location, LocalDateTime since, ContactType type) {
         setPerson(person);
         setLocation(location);

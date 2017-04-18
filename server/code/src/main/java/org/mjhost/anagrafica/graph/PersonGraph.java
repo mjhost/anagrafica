@@ -3,6 +3,8 @@ package org.mjhost.anagrafica.graph;
 import graphql.schema.GraphQLList;
 import graphql.schema.GraphQLNonNull;
 import graphql.schema.GraphQLObjectType;
+import graphql.schema.GraphQLTypeReference;
+import org.mjhost.anagrafica.model.node.Location;
 import org.mjhost.anagrafica.model.node.Person;
 import org.mjhost.anagrafica.repository.PersonRepository;
 import org.mjhost.anagrafica.utils.TrimUtils;
@@ -11,6 +13,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.PostConstruct;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.Period;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -33,6 +38,9 @@ public class PersonGraph {
     @Autowired
     private PersonRepository personRepository;
 
+    @Autowired
+    private LocationGraph locationGraph;
+
     private Map<String, GraphQLObjectType> nameToQueryMap;
 
     @PostConstruct
@@ -49,7 +57,7 @@ public class PersonGraph {
 
 //    TODO: avoid hardcoded strings
     public GraphQLObjectType person() {
-//        describe Person output
+//        describe Person type
         return newObject()
             .name("Person")
             .description("TODO")
@@ -69,6 +77,18 @@ public class PersonGraph {
                 .description("TODO")
             )
             .field(f -> f
+                .name("age")
+                .type(new GraphQLNonNull(GraphQLString))
+                .description("TODO")
+                .dataFetcher(
+                    environment -> {
+                        LocalDateTime birth = ((Person) environment.getSource()).getBirth().getDate();
+                        Period p = Period.between(birth.toLocalDate(), LocalDate.now());
+                        return String.valueOf(p.getYears());
+                    }
+                )
+            )
+            .field(f -> f
                 .name("title")
                 .type(GraphQLString)
                 .description("TODO")
@@ -77,6 +97,11 @@ public class PersonGraph {
                 .name("educationLevel")
                 .type(GraphQLString)
                 .description("TODO")
+                .dataFetcher(
+                    environment -> {
+                        return ((Person) environment.getSource()).getEducationLevel().getValue();
+                    }
+                )
             )
             .field(f -> f
                 .name("hobbies")
@@ -101,6 +126,33 @@ public class PersonGraph {
                         List<String> employments = new LinkedList<>();
                         ((Person) environment.getSource()).getEmployments().stream().forEach(e -> employments.add(e.getJob().getName()));
                         return employments;
+                    }
+                )
+            )
+//            .field(f -> f
+//                .name("references")
+////                .type(new GraphQLList(new GraphQLTypeReference("Contact")))
+//                .type(new GraphQLList(GraphQLString))
+//                .description("TODO")
+//                .dataFetcher(
+//                    environment -> {
+////                        environment.getSource() is the value of the surrounding object. In this case described by objectType
+//                        List<String> references = new LinkedList<>();
+//                        ((Person) environment.getSource()).getReferences().stream().forEach(r -> references.add(r.getContact().getEmail()));
+//                        return references;
+//                    }
+//                )
+//            )
+            .field(f -> f
+                .name("addresses")
+                .type(new GraphQLList(new GraphQLTypeReference("Location")))
+                .description("TODO")
+                .dataFetcher(
+                    environment -> {
+//                        environment.getSource() is the value of the surrounding object. In this case described by objectType
+                        List<Location> addresses = new LinkedList<>();
+                        ((Person) environment.getSource()).getAddresses().stream().forEach(a -> addresses.add(a.getLocation()));
+                        return addresses;
                     }
                 )
             )
@@ -150,7 +202,7 @@ public class PersonGraph {
                 .name(OUTPUT_KEY)
                 .description("The output of the query will be an instance of person type")
 //                query must return a list of person type
-                .type(new GraphQLList(person()))
+                .type(new GraphQLList(new GraphQLTypeReference("Person")))
 //                query must expect some input params
                 .argument(a -> a
                     .name(HOBBY_KEY)

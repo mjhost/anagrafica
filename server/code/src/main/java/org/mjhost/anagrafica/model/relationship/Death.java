@@ -27,6 +27,10 @@ public class Death {
     @Property(name = "date")
     private LocalDateTime date;
 
+    public Death() {
+//        DO NOT DELETE
+    }
+
     public Death(Person person, Location location, LocalDateTime date) {
         setPerson(person);
         setLocation(location);

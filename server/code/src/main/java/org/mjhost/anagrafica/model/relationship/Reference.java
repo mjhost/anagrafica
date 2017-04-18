@@ -26,6 +26,10 @@ public class Reference {
     @Property(name = "type")
     private ContactType type;
 
+    public Reference() {
+//        DO NOT DELETE
+    }
+
     public Reference(Person person, Contact contact, ContactType type) {
         setPerson(person);
         setContact(contact);

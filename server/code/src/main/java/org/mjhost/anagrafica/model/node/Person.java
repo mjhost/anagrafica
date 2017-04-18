@@ -37,14 +37,14 @@ public class Person {
     @Property(name = "education_level")
     private EducationLevel educationLevel;
 
-    @Relationship(type = "BORN_IN", direction = Relationship.OUTGOING)
-    private Birth birth;
-
     @Relationship(type = "HAS_ADDRESS", direction = Relationship.OUTGOING)
     private Set<Address> addresses = new HashSet<>();
 
-    @Relationship(type = "HAS_REFERENCES", direction = Relationship.OUTGOING)
-    private Set<Reference> references = new HashSet<>();
+    @Relationship(type = "BORN_IN", direction = Relationship.OUTGOING)
+    private Birth birth;
+
+    @Relationship(type = "DEAD_IN", direction = Relationship.OUTGOING)
+    private Death death;
 
     @Relationship(type = "IS_EMPLOYED_AS", direction = Relationship.OUTGOING)
     private Set<Employment> employments = new HashSet<>();
@@ -52,11 +52,11 @@ public class Person {
     @Relationship(type = "HAS_HOBBY", direction = Relationship.OUTGOING)
     private Set<Hobby> hobbies = new HashSet<>();
 
+    @Relationship(type = "HAS_REFERENCES", direction = Relationship.OUTGOING)
+    private Set<Reference> references = new HashSet<>();
+
 //    @Relationship(type = "GOT_MARRIED_AT", direction = Relationship.OUTGOING)
 //    private Set<Wedding> weddings = new HashSet<>();
-
-    @Relationship(type = "DEAD_IN", direction = Relationship.OUTGOING)
-    private Death death;
 
     public Person() {}
 
@@ -108,22 +108,6 @@ public class Person {
         this.educationLevel = educationLevel;
     }
 
-    public Birth getBirth() {
-        return birth;
-    }
-
-    public void setBirth(Birth birth) {
-        this.birth = birth;
-    }
-
-//    public List<Wedding> getWeddings() {
-//        return weddings;
-//    }
-//
-//    public void addWedding(Wedding wedding) {
-//        this.weddings.add(wedding);
-//    }
-
     public Set<Address> getAddresses() {
         return addresses;
     }
@@ -132,12 +116,20 @@ public class Person {
         this.addresses.add(address);
     }
 
-    public Set<Reference> getReferences() {
-        return references;
+    public Birth getBirth() {
+        return birth;
     }
 
-    public void addReference(Reference reference) {
-        this.references.add(reference);
+    public void setBirth(Birth birth) {
+        this.birth = birth;
+    }
+
+    public Death getDeath() {
+        return death;
+    }
+
+    public void setDeath(Death death) {
+        this.death = death;
     }
 
     public Set<Employment> getEmployments() {
@@ -156,11 +148,19 @@ public class Person {
         this.hobbies.add(hobby);
     }
 
-    public Death getDeath() {
-        return death;
+    public Set<Reference> getReferences() {
+        return references;
     }
 
-    public void setDeath(Death death) {
-        this.death = death;
+    public void addReference(Reference reference) {
+        this.references.add(reference);
     }
+
+//    public List<Wedding> getWeddings() {
+//        return weddings;
+//    }
+//
+//    public void addWedding(Wedding wedding) {
+//        this.weddings.add(wedding);
+//    }
 }

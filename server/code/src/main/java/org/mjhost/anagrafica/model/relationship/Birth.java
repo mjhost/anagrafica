@@ -27,6 +27,10 @@ public class Birth {
     @Property(name = "date")
     private LocalDateTime date;
 
+    public Birth() {
+//        DO NOT DELETE
+    }
+
     public Birth(Person person, Location location, LocalDateTime date) {
         setPerson(person);
         setLocation(location);

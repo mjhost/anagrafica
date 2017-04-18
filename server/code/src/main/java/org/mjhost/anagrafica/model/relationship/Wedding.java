@@ -30,6 +30,10 @@ public class Wedding {
     @Property(name = "document_record")
     private String documentRecord;
 
+    public Wedding() {
+//        DO NOT DELETE
+    }
+
     public Wedding(Person person, Organization parish, LocalDate date, String documentRecord) {
         setPerson(person);
         setParish(parish);
