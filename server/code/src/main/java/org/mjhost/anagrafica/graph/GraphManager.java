@@ -24,25 +24,31 @@ public class GraphManager {
     @Autowired
     private LocationGraph locationGraph;
 
+    @Autowired
+    private ContactGraph contactGraph;
+
     public GraphQL getGraph(String queryName) {
 //        TODO: externalize constants
-        ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(
-//            core pool size 2 thread
-            2,
-//            max pool size 2 threads
-            2,
-            30,
-            TimeUnit.SECONDS,
-            new LinkedBlockingQueue<Runnable>(),
-            new ThreadPoolExecutor.CallerRunsPolicy()
-        );
+//        ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(
+////            core pool size 2 thread
+//            1,
+////            max pool size 2 threads
+//            10,
+//            10,
+//            TimeUnit.SECONDS,
+//            new LinkedBlockingQueue<Runnable>(),
+//            new ThreadPoolExecutor.CallerRunsPolicy()
+//        );
 
         GraphQLSchema schema = newSchema()
             .query(personGraph.getQuery(queryName))
             .build(new HashSet<>(Arrays.asList(
-                locationGraph.location(), personGraph.person()))
+                contactGraph.contact(), locationGraph.location(), personGraph.person()))
             );
 
-        return new GraphQL(schema, new ExecutorServiceExecutionStrategy(threadPoolExecutor), new SimpleExecutionStrategy());
+//        WARN: THIS DOES NOT WORK, DON'T KNOW WHY
+//        return new GraphQL(schema, new ExecutorServiceExecutionStrategy(threadPoolExecutor), new SimpleExecutionStrategy());
+
+        return new GraphQL(schema);
     }
 }

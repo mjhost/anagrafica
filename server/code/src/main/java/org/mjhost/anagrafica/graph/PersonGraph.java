@@ -4,6 +4,7 @@ import graphql.schema.GraphQLList;
 import graphql.schema.GraphQLNonNull;
 import graphql.schema.GraphQLObjectType;
 import graphql.schema.GraphQLTypeReference;
+import org.mjhost.anagrafica.model.node.Contact;
 import org.mjhost.anagrafica.model.node.Location;
 import org.mjhost.anagrafica.model.node.Person;
 import org.mjhost.anagrafica.repository.PersonRepository;
@@ -76,6 +77,7 @@ public class PersonGraph {
                 .type(new GraphQLNonNull(GraphQLString))
                 .description("TODO")
             )
+//            this is a computed field
             .field(f -> f
                 .name("age")
                 .type(new GraphQLNonNull(GraphQLString))
@@ -129,20 +131,19 @@ public class PersonGraph {
                     }
                 )
             )
-//            .field(f -> f
-//                .name("references")
-////                .type(new GraphQLList(new GraphQLTypeReference("Contact")))
-//                .type(new GraphQLList(GraphQLString))
-//                .description("TODO")
-//                .dataFetcher(
-//                    environment -> {
-////                        environment.getSource() is the value of the surrounding object. In this case described by objectType
-//                        List<String> references = new LinkedList<>();
-//                        ((Person) environment.getSource()).getReferences().stream().forEach(r -> references.add(r.getContact().getEmail()));
-//                        return references;
-//                    }
-//                )
-//            )
+            .field(f -> f
+                .name("references")
+                .type(new GraphQLList(new GraphQLTypeReference("Contact")))
+                .description("TODO")
+                .dataFetcher(
+                    environment -> {
+//                        environment.getSource() is the value of the surrounding object. In this case described by objectType
+                        List<Contact> references = new LinkedList<>();
+                        ((Person) environment.getSource()).getReferences().stream().forEach(r -> references.add(r.getContact()));
+                        return references;
+                    }
+                )
+            )
             .field(f -> f
                 .name("addresses")
                 .type(new GraphQLList(new GraphQLTypeReference("Location")))

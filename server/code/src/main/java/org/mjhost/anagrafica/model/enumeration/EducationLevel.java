@@ -2,17 +2,17 @@ package org.mjhost.anagrafica.model.enumeration;
 
 public enum EducationLevel {
 
-    PRIMARY_SCHOOL("Primary school"),
+    PRIMARY_SCHOOL("Scuola elementare"),
 
-    MIDDLE_SCHOOL("Middle school"),
+    MIDDLE_SCHOOL("Scuola media"),
 
-    HIGH_SCHOOL("High school"),
+    HIGH_SCHOOL("Scuola superiore"),
 
-    BACHELOR_DEGREE("Bachelor degree"),
+    BACHELOR_DEGREE("Laurea triennale"),
 
-    MASTER_DEGREE("Master degree"),
+    MASTER_DEGREE("Laurea magistrale"),
 
-    PHD("Ph.D.");
+    PHD("Dottorato di ricerca");
 
     private String value;
 
