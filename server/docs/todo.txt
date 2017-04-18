@@ -19,7 +19,7 @@ sugli eventi mettiamo un check "nascondi in dashboard" o "mostra in dashboard" (
 Inserire 
 due morti oggi (uno con parenti e uno senza: quest’ultimo non compare in dashboard)
 inserire 10 persone
-inserire 3 persone per l’elenco compleanni (eta client side) (nate oggi)
+inserire 3 persone per l’elenco compleanni (nate oggi)
 ricerca per hobby e lavoro
 
 a seguire

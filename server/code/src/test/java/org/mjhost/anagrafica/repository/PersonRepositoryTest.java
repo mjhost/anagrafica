@@ -1,9 +1,8 @@
 package org.mjhost.anagrafica.repository;
 
 import org.junit.Test;
-import org.mjhost.anagrafica.model.node.Location;
 import org.mjhost.anagrafica.model.node.Person;
-import org.mjhost.anagrafica.utils.ModelUtils;
+import org.mjhost.anagrafica.utils.test.MassimoManfredinoBuilder;
 import org.springframework.util.CollectionUtils;
 
 import java.util.List;
@@ -19,27 +18,27 @@ public class PersonRepositoryTest extends AbstractRepositoryTest {
 
     @Test
     public void testFindByFirstName() {
-        Person lady = ModelUtils.getLady();
-        List<Person> people = personRepository.findByFirstName(lady.getFirstName());
+        Person mm = MassimoManfredinoBuilder.build();
+        List<Person> people = personRepository.findByFirstName(mm.getFirstName());
 
         assertThat(org.apache.commons.collections4.CollectionUtils.isEmpty(people), is(false));
         assertThat(people.size(), is(1));
 
         Person bride = people.get(0);
         assertThat(bride, notNullValue());
-        assertThat(bride.getLastName(), equalTo(lady.getLastName()));
-        assertThat(bride.getSex(), equalTo(lady.getSex()));
+        assertThat(bride.getLastName(), equalTo(mm.getLastName()));
+        assertThat(bride.getSex(), equalTo(mm.getSex()));
     }
 
     @Test
     public void findByFullName() {
-        Person lady = ModelUtils.getLady();
-        List<Person> people = personRepository.findByFullName(lady.getFirstName(), lady.getLastName());
+        Person mm = MassimoManfredinoBuilder.build();
+        List<Person> people = personRepository.findByFullName(mm.getFirstName(), mm.getLastName());
         assertThat(CollectionUtils.isEmpty(people), is(false));
         assertThat(people.size(), is(1));
         Person p = people.get(0);
         assertThat(p, notNullValue());
-        assertThat(p.getSex(), equalTo(lady.getSex()));
+        assertThat(p.getSex(), equalTo(mm.getSex()));
     }
 
     @Test
@@ -52,10 +51,10 @@ public class PersonRepositoryTest extends AbstractRepositoryTest {
         Person p = people.get(0);
         assertThat(p, notNullValue());
 
-        Person lady = ModelUtils.getLady();
-        assertThat(p.getFirstName(), equalTo(lady.getFirstName()));
-        assertThat(p.getLastName(), equalTo(lady.getLastName()));
-        assertThat(p.getSex(), equalTo(lady.getSex()));
+        Person mm = MassimoManfredinoBuilder.build();
+        assertThat(p.getFirstName(), equalTo(mm.getFirstName()));
+        assertThat(p.getLastName(), equalTo(mm.getLastName()));
+        assertThat(p.getSex(), equalTo(mm.getSex()));
     }
 
     @Override
@@ -63,10 +62,7 @@ public class PersonRepositoryTest extends AbstractRepositoryTest {
 //        populate Neo4J
 
 //        nodes
-        Location home = ModelUtils.getHomeLocation();
-        getLocationRepository().save(home);
-
-        Person lady = ModelUtils.getLady();
-        getPersonRepository().save(lady);
+        Person mm = MassimoManfredinoBuilder.build();
+        getPersonRepository().save(mm);
     }
 }

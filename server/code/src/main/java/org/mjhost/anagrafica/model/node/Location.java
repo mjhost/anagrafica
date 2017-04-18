@@ -13,6 +13,9 @@ public class Location {
     @GraphId
     private Long id;
 
+    @Property(name = "name")
+    private String name;
+
     @Property(name = "street")
     private String street;
 
@@ -31,6 +34,12 @@ public class Location {
     @Property(name = "country")
     private String country;
 
+    @Property(name = "lat")
+    private Double lat;
+
+    @Property(name = "lon")
+    private Double lon;
+
     public Location() {}
 
     public Long getId() {
@@ -39,6 +48,14 @@ public class Location {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getStreet() {
@@ -87,5 +104,21 @@ public class Location {
 
     public void setCountry(String country) {
         this.country = country;
+    }
+
+    public Double getLat() {
+        return lat;
+    }
+
+    public void setLat(Double lat) {
+        this.lat = lat;
+    }
+
+    public Double getLon() {
+        return lon;
+    }
+
+    public void setLon(Double lon) {
+        this.lon = lon;
     }
 }

@@ -6,7 +6,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mjhost.anagrafica.model.node.Person;
 import org.mjhost.anagrafica.repository.PersonRepositoryTest;
-import org.mjhost.anagrafica.utils.ModelUtils;
+import org.mjhost.anagrafica.utils.test.MassimoManfredinoBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -120,7 +120,7 @@ public class PersonGraphTest extends PersonRepositoryTest {
 
     @Test
     public void testFindByName() {
-        Person lady = ModelUtils.getLady();
+        Person mm = MassimoManfredinoBuilder.build();
 
 //        execute query
         try {
@@ -135,7 +135,7 @@ public class PersonGraphTest extends PersonRepositoryTest {
             graphQLQuery = String.format(
                 "{%s(%s:\"%s\"){firstName,lastName}}",
                 PersonGraph.OUTPUT_KEY,
-                PersonGraph.NAME_KEY, lady.getLastName()
+                PersonGraph.NAME_KEY, mm.getLastName()
             );
             result = graphManager.getGraph("findByName").execute(graphQLQuery);
 
@@ -156,14 +156,14 @@ public class PersonGraphTest extends PersonRepositoryTest {
             assertThat(list.size(), equalTo(1));
 
             map = list.get(0);
-            assertThat(map.get("firstName"), equalTo(lady.getFirstName()));
-            assertThat(map.get("lastName"), equalTo(lady.getLastName()));
+            assertThat(map.get("firstName"), equalTo(mm.getFirstName()));
+            assertThat(map.get("lastName"), equalTo(mm.getLastName()));
 
 //            then ask firstName only
             graphQLQuery = String.format(
                 "{%s(%s:\"%s\"){firstName}}",
                 PersonGraph.OUTPUT_KEY,
-                PersonGraph.NAME_KEY, lady.getLastName()
+                PersonGraph.NAME_KEY, mm.getLastName()
             );
             result = graphManager.getGraph("findByName").execute(graphQLQuery);
 
@@ -184,7 +184,7 @@ public class PersonGraphTest extends PersonRepositoryTest {
             assertThat(list.size(), equalTo(1));
 
             map = list.get(0);
-            assertThat(map.get("firstName"), equalTo(lady.getFirstName()));
+            assertThat(map.get("firstName"), equalTo(mm.getFirstName()));
             assertThat(map.get("lastName"), nullValue());
         } catch (Exception e) {
             fail(e.getLocalizedMessage());
