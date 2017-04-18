@@ -22,9 +22,32 @@ export const dashboard = {
 		{id:9, name:"Pellegrinaggio a fatima", date:thisYear + "-05-04", people:5}
 	],
 	"todo":[
-		{id:2, name:"Sempronio"},
-		{id:7, name:"moglie 2"}
+		{id:3, name:"Sempronio"},
+		{id:7, name:"moglie 2", address:{
+			street: "via diversa",
+			number: "3a",
+			cap: "00100",
+			city: "roma",
+			country: "italia"
+		}}
 	]
+};
+
+export const persona_3 = {
+	id:3,
+	name: "Sempronio",
+	surname: "Magno",
+	birth: [thisYear-25, thisMonth, thisDay].join("-"),
+	sex:"M",
+	address: {
+		street: "via da qualche parte",
+		number: "13",
+		cap: "00100",
+		city: "roma",
+		country: "italia"
+	},
+	hobby: ["videogames", "calcetto", "musica"],
+	job: ["studente", "università"]
 };
 
 export const persona_10 = {

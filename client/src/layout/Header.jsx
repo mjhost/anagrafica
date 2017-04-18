@@ -4,6 +4,7 @@ import {Navbar, Nav, NavItem, NavDropdown, MenuItem} from 'react-bootstrap';
 import {Badge} from 'react-bootstrap';
 import {Link} from 'react-router-dom';
 import { withRouter } from 'react-router';
+import { connect } from 'react-redux';
 
 import LinkContainer from 'containers/LinkContainer';
 
@@ -39,7 +40,7 @@ class Header extends React.Component {
 						<LinkContainer to="/visits">
 							<NavItem eventKey={2}>
 								Visite programmate
-								{} <Badge>5</Badge>
+								{} <Badge>{this.props.visits}</Badge>
 							</NavItem>
 						</LinkContainer>
 					</Nav>
@@ -49,11 +50,18 @@ class Header extends React.Component {
 	}
 }
 
-Header.propTypes = {
-	history: PropTypes.object.isRequired
+const mapStateToProps = (state) => {
+	return {
+		visits: (state.visits || []).length
+	};
 };
 
-export default withRouter(Header);
+Header.propTypes = {
+	history: PropTypes.object.isRequired,
+	visits: PropTypes.number.isRequired
+};
+
+export default withRouter(connect(mapStateToProps)(Header));
 /*
   <Navbar inverse collapseOnSelect>
     <Navbar.Header>
