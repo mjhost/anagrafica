@@ -137,7 +137,7 @@ public class PersonGraphTest extends PersonRepositoryTest {
                 PersonGraph.OUTPUT_KEY,
                 PersonGraph.NAME_KEY, mm.getLastName()
             );
-            result = graphManager.getGraph("findByName").execute(graphQLQuery);
+            result = graphManager.getPersonGraph("findByName").execute(graphQLQuery);
 
             assertThat(CollectionUtils.isEmpty(result.getErrors()), is(true));
             assertThat(result.getData(), notNullValue());
@@ -165,7 +165,7 @@ public class PersonGraphTest extends PersonRepositoryTest {
                 PersonGraph.OUTPUT_KEY,
                 PersonGraph.NAME_KEY, mm.getLastName()
             );
-            result = graphManager.getGraph("findByName").execute(graphQLQuery);
+            result = graphManager.getPersonGraph("findByName").execute(graphQLQuery);
 
             assertThat(CollectionUtils.isEmpty(result.getErrors()), is(true));
             assertThat(result.getData(), notNullValue());

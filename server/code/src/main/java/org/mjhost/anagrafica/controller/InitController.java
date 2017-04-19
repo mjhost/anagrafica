@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController("/")
+@RestController
 public class InitController {
 
     private LocationRepository locationRepository;
@@ -26,9 +26,10 @@ public class InitController {
 
     @RequestMapping("/init")
     public boolean init() {
-//        populate Neo4J
+//        delete database
+        personRepository.clearDatabase();
 
-//        nodes
+//        populate database
         personRepository.save(MassimoManfredinoBuilder.build());
 
         return true;

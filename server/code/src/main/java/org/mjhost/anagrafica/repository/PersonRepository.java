@@ -7,6 +7,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
@@ -36,8 +37,9 @@ public interface PersonRepository extends GraphRepository<Person> {
         " WHERE " +
             " TOLOWER(p.first_name + \" \" + p.last_name) CONTAINS(TOLOWER({fn})) OR " +
             " TOLOWER(p.last_name + \" \" + p.first_name) CONTAINS(TOLOWER({fn})) " +
-        " RETURN " +
-            " p "
+        " WITH p MATCH " +
+            " (p)-[r]->(t) " +
+        " RETURN p, r, t"
     )
     List<Person> findByName(@NotNull @Param("fn") String name);
 
@@ -64,6 +66,16 @@ public interface PersonRepository extends GraphRepository<Person> {
     List<Person> findByEmployment(@NotNull @Param("em") String employment);
 
 
+
+
+
+
+
+
+//    WARN: THIS IS JUST FOR TESTING PURPOSES AND MUST BE DELETED
+    @Query("MATCH (n) OPTIONAL MATCH (n)-[r]-() DELETE n,r")
+    void clearDatabase();
+//    WARN: THIS IS JUST FOR TESTING PURPOSES AND MUST BE DELETED
 
 
 

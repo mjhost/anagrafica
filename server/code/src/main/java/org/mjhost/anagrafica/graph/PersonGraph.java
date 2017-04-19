@@ -7,6 +7,7 @@ import graphql.schema.GraphQLTypeReference;
 import org.mjhost.anagrafica.model.node.Contact;
 import org.mjhost.anagrafica.model.node.Location;
 import org.mjhost.anagrafica.model.node.Person;
+import org.mjhost.anagrafica.model.relationship.Birth;
 import org.mjhost.anagrafica.repository.PersonRepository;
 import org.mjhost.anagrafica.utils.TrimUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import static graphql.Scalars.GraphQLBigInteger;
 import static graphql.Scalars.GraphQLString;
 import static graphql.schema.GraphQLObjectType.newObject;
 
@@ -38,9 +40,6 @@ public class PersonGraph {
 
     @Autowired
     private PersonRepository personRepository;
-
-    @Autowired
-    private LocationGraph locationGraph;
 
     private Map<String, GraphQLObjectType> nameToQueryMap;
 
@@ -63,6 +62,12 @@ public class PersonGraph {
             .name("Person")
             .description("TODO")
             .field(f -> f
+                .name("id")
+//                TODO: make it non nullable
+                .type(GraphQLBigInteger)
+                .description("TODO")
+            )
+            .field(f -> f
                 .name("firstName")
                 .type(new GraphQLNonNull(GraphQLString))
                 .description("TODO")
@@ -80,13 +85,18 @@ public class PersonGraph {
 //            this is a computed field
             .field(f -> f
                 .name("age")
-                .type(new GraphQLNonNull(GraphQLString))
+                .type(GraphQLString)
                 .description("TODO")
                 .dataFetcher(
                     environment -> {
-                        LocalDateTime birth = ((Person) environment.getSource()).getBirth().getDate();
-                        Period p = Period.between(birth.toLocalDate(), LocalDate.now());
-                        return String.valueOf(p.getYears());
+                        Birth birth = ((Person) environment.getSource()).getBirth();
+                        if (birth != null) {
+                            LocalDateTime bd = birth.getDate();
+                            Period p = Period.between(bd.toLocalDate(), LocalDate.now());
+                            return String.valueOf(p.getYears());
+                        } else {
+                            return null;
+                        }
                     }
                 )
             )
@@ -170,7 +180,7 @@ public class PersonGraph {
                 .name(OUTPUT_KEY)
                 .description("The output of the query will be an instance of person type")
 //                query must return a list of person type
-                .type(new GraphQLList(person()))
+                .type(new GraphQLList(new GraphQLTypeReference("Person")))
 //                query must expect some input params
                 .argument(a -> a
                     .name(NAME_KEY)
@@ -234,7 +244,7 @@ public class PersonGraph {
                 .name(OUTPUT_KEY)
                 .description("The output of the query will be an instance of person type")
 //                query must return a list of person type
-                .type(new GraphQLList(person()))
+                .type(new GraphQLList(new GraphQLTypeReference("Person")))
 //                query must expect some input params
                 .argument(a -> a
                     .name(EMPLOYMENT_KEY)
