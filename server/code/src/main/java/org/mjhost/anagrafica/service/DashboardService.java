@@ -33,7 +33,15 @@ public class DashboardService {
     public Map<String, Object> getDashboard() {
         String queryName = "getDashboard";
 //        TODO: externalize to properties file
-        String query = "{dashboard{birthdays{id firstName lastName age}}}";
+        String query =
+            "{dashboard{" +
+                "birthdays{id firstName lastName age} " +
+                "weddings{" +
+                    "husband{id firstName lastName} " +
+                    "wife{id firstName lastName} " +
+                    "age " +
+                "}" +
+            "}}";
 
 //        TODO : MUST HANDLE DYNAMIC MESSAGES, EXCEPTIONS AND LOG
         try {

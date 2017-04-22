@@ -5,6 +5,7 @@ import graphql.schema.GraphQLObjectType;
 import graphql.schema.GraphQLTypeReference;
 import org.mjhost.anagrafica.model.pojo.Dashboard;
 import org.mjhost.anagrafica.repository.PersonRepository;
+import org.mjhost.anagrafica.repository.WeddingRepository;
 import org.mjhost.anagrafica.utils.test.GaioGraccoBuilder;
 import org.mjhost.anagrafica.utils.test.SempronioGraccoBuilder;
 import org.mjhost.anagrafica.utils.test.TiberioGraccoBuilder;
@@ -26,6 +27,9 @@ public class DashboardGraph {
     @Autowired
     private PersonRepository personRepository;
 
+    @Autowired
+    private WeddingRepository weddingRepository;
+
     private Map<String, GraphQLObjectType> nameToQueryMap;
 
     @PostConstruct
@@ -45,8 +49,13 @@ public class DashboardGraph {
             .description("TODO")
             .field(f -> f
                 .name("birthdays")
-                .type(new GraphQLList(new GraphQLTypeReference("Person")))
                 .description("TODO")
+                .type(new GraphQLList(new GraphQLTypeReference("Person")))
+            )
+            .field(f -> f
+                .name("weddings")
+                .description("TODO")
+                .type(new GraphQLList(new GraphQLTypeReference("Wedding")))
             )
             .build();
     }
@@ -69,6 +78,7 @@ public class DashboardGraph {
 
 //                    WARN: THIS IS A MOCK
                     dashboard.setBirthdays(personRepository.findByName("Gracco"));
+                    dashboard.setWeddings(weddingRepository.findAll());
 //                    WARN: THIS IS A MOCK
 
                     return dashboard;

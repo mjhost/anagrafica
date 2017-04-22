@@ -10,20 +10,19 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-public class MassimoManfredinoBuilder {
+public class AnnalisaGaloppoBuilder {
 
     private static Location getBirthLocation() {
         Location birth = new Location();
-        birth.setName("Clinica Maria Rosaria");
-        birth.setStreet("Via Colle S. Bartolomeo, 50");
-        birth.setZipCode("80045");
-        birth.setCity("Pompei");
+        birth.setName("Villa dei gerani");
+        birth.setStreet("Viale Colli Aminei, 8");
+        birth.setZipCode("80131");
+        birth.setCity("Napoli");
         birth.setState("Campania");
         birth.setProvince("NA");
         birth.setCountry("Italia");
-        birth.setLat(40.747867);
-        birth.setLon(14.494867);
-
+        birth.setLat(40.868460);
+        birth.setLon(14.248005);
         return birth;
     }
 
@@ -44,7 +43,7 @@ public class MassimoManfredinoBuilder {
     private static Contact getHomeContact() {
         Contact home = new Contact();
         home.setPhone("06123456");
-        home.setEmail("massimo.manfredino@gmail.com");
+        home.setEmail("annalisa.galoppo@gmail.com");
 
         return home;
     }
@@ -58,26 +57,27 @@ public class MassimoManfredinoBuilder {
 
     private static Set<Subject> getHobbies() {
         Subject p = new Subject();
-        p.setName("Fotografia");
+        p.setName("Running");
 
         Subject s = new Subject();
-        s.setName("Nuoto");
+        s.setName("Yoga");
 
         return new HashSet<>(Arrays.asList(p, s));
     }
 
     public static Person build() {
         Person p = new Person();
-        p.setFirstName("Massimo");
-        p.setLastName("Manfredino");
-        p.setSex("M");
-        p.setTitle("Mr");
+        p.setFirstName("Annalisa");
+        p.setLastName("Galoppo");
+        p.setSex("F");
+        p.setTitle("Mrs");
         p.setEducationLevel(EducationLevel.PHD);
-        p.setBirth(new Birth(p, getBirthLocation(), LocalDateTime.of(1970, 8, 18, 7, 40)));
+        p.setBirth(new Birth(p, getBirthLocation(), LocalDateTime.of(1973, 4, 5, 0, 0)));
         p.addAddress(new Address(p, getHomeLocation(), LocalDateTime.now().minusYears(3), ContactType.HOME));
         p.addReference(new Reference(p, getHomeContact(), ContactType.HOME));
         getJobs().stream().forEach(j -> p.addEmployment(new Employment(p, j, LocalDateTime.now().minusYears(18))));
         getHobbies().stream().forEach(h -> p.addHobby(new Hobby(p, h, LocalDateTime.now().minusMonths(2))));
+
         return p;
     }
 }

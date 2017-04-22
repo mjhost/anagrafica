@@ -8,6 +8,7 @@ import org.mjhost.anagrafica.model.node.Contact;
 import org.mjhost.anagrafica.model.node.Location;
 import org.mjhost.anagrafica.model.node.Person;
 import org.mjhost.anagrafica.model.relationship.Birth;
+import org.mjhost.anagrafica.model.relationship.Wedding;
 import org.mjhost.anagrafica.repository.PersonRepository;
 import org.mjhost.anagrafica.utils.TrimUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -164,6 +165,21 @@ public class PersonGraph {
                         List<Location> addresses = new LinkedList<>();
                         ((Person) environment.getSource()).getAddresses().stream().forEach(a -> addresses.add(a.getLocation()));
                         return addresses;
+                    }
+                )
+            )
+            .field(f -> f
+                .name("consort")
+                .type(new GraphQLList(new GraphQLTypeReference("Person")))
+                .description("TODO")
+                .dataFetcher(
+                    environment -> {
+                        Wedding wedding = ((Person) environment.getSource()).getWedding();
+                        if (wedding != null) {
+                            return wedding.getConsort();
+                        } else {
+                            return null;
+                        }
                     }
                 )
             )

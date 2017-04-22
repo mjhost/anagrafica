@@ -28,11 +28,15 @@ public class GraphManager {
     @Autowired
     private DashboardGraph dashboardGraph;
 
+    @Autowired
+    private WeddingGraph weddingGraph;
+
     private Set<GraphQLType> dictionary;
     @PostConstruct
     public void init() {
         dictionary = new HashSet<>(Arrays.asList(
-            dashboardGraph.dashboard(), contactGraph.contact(), locationGraph.location(), personGraph.person()
+            dashboardGraph.dashboard(), contactGraph.contact(), locationGraph.location(), personGraph.person(),
+            weddingGraph.wedding()
         ));
     }
 

@@ -2,16 +2,15 @@ package org.mjhost.anagrafica.model.relationship;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import org.mjhost.anagrafica.model.converter.LocalDateConverter;
-import org.mjhost.anagrafica.model.node.Organization;
+import org.mjhost.anagrafica.model.converter.LocalDateTimeConverter;
 import org.mjhost.anagrafica.model.node.Person;
 import org.neo4j.ogm.annotation.*;
 import org.neo4j.ogm.annotation.typeconversion.Convert;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-@RelationshipEntity(type = "GOT_MARRIED_AT")
+@RelationshipEntity(type = "IS_MARRIED_TO")
 public class Wedding {
 
     @GraphId
@@ -21,24 +20,20 @@ public class Wedding {
     private Person person;
 
     @EndNode
-    private Organization parish;
+    private Person consort;
 
-    @Convert(LocalDateConverter.class)
+    @Convert(LocalDateTimeConverter.class)
     @Property(name = "date")
-    private LocalDate date;
-
-    @Property(name = "document_record")
-    private String documentRecord;
+    private LocalDateTime date;
 
     public Wedding() {
 //        DO NOT DELETE
     }
 
-    public Wedding(Person person, Organization parish, LocalDate date, String documentRecord) {
+    public Wedding(Person person, Person consort, LocalDateTime date) {
         setPerson(person);
-        setParish(parish);
+        setConsort(consort);
         setDate(date);
-        setDocumentRecord(documentRecord);
     }
 
     public Long getId() {
@@ -57,27 +52,19 @@ public class Wedding {
         this.person = person;
     }
 
-    public Organization getParish() {
-        return parish;
+    public Person getConsort() {
+        return consort;
     }
 
-    public void setParish(Organization parish) {
-        this.parish = parish;
+    public void setConsort(Person consort) {
+        this.consort = consort;
     }
 
-    public LocalDate getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
-    }
-
-    public String getDocumentRecord() {
-        return documentRecord;
-    }
-
-    public void setDocumentRecord(String documentRecord) {
-        this.documentRecord = documentRecord;
     }
 }

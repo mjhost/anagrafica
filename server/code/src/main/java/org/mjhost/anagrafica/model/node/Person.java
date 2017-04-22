@@ -55,8 +55,8 @@ public class Person {
     @Relationship(type = "HAS_REFERENCES", direction = Relationship.OUTGOING)
     private Set<Reference> references = new HashSet<>();
 
-//    @Relationship(type = "GOT_MARRIED_AT", direction = Relationship.OUTGOING)
-//    private Set<Wedding> weddings = new HashSet<>();
+    @Relationship(type = "IS_MARRIED_TO", direction = Relationship.OUTGOING)
+    private Wedding wedding;
 
     public Person() {}
 
@@ -156,11 +156,11 @@ public class Person {
         this.references.add(reference);
     }
 
-//    public List<Wedding> getWeddings() {
-//        return weddings;
-//    }
-//
-//    public void addWedding(Wedding wedding) {
-//        this.weddings.add(wedding);
-//    }
+    public Wedding getWedding() {
+        return wedding;
+    }
+
+    public void setWedding(Wedding wedding) {
+        this.wedding = wedding;
+    }
 }
