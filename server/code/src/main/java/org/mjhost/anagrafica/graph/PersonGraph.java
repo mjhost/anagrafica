@@ -64,7 +64,7 @@ public class PersonGraph {
             .field(f -> f
                 .name("id")
 //                TODO: make it non nullable
-                .type(GraphQLBigInteger)
+                .type(new GraphQLNonNull(GraphQLBigInteger))
                 .description("TODO")
             )
             .field(f -> f

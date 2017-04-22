@@ -68,7 +68,6 @@ public class TiberioGraccoBuilder {
 
     public static Person build() {
         Person p = new Person();
-        p.setId(9999L);
         p.setFirstName("Tiberio");
         p.setLastName("Gracco");
         p.setSex("M");

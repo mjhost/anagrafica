@@ -68,9 +68,7 @@ public class DashboardGraph {
                     Dashboard dashboard = new Dashboard();
 
 //                    WARN: THIS IS A MOCK
-                    dashboard.setBirthdays(
-                        Arrays.asList(TiberioGraccoBuilder.build(), GaioGraccoBuilder.build(), SempronioGraccoBuilder.build())
-                    );
+                    dashboard.setBirthdays(personRepository.findByName("Gracco"));
 //                    WARN: THIS IS A MOCK
 
                     return dashboard;

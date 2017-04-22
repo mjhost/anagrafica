@@ -42,4 +42,6 @@ https://github.com/chentsulin/awesome-graphql
 Query browser GraphiQL
 http://graphql.org/swapi-graphql
 
-
+---
+Generazione degli id (MOLTO IMPORTANTE)
+https://github.com/graphaware/neo4j-uuid

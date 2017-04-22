@@ -68,7 +68,6 @@ public class SempronioGraccoBuilder {
 
     public static Person build() {
         Person p = new Person();
-        p.setId(9997L);
         p.setFirstName("Sempronio");
         p.setLastName("Gracco");
         p.setSex("M");
