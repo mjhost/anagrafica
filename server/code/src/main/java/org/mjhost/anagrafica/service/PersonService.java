@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.constraints.NotNull;
 import java.net.URLDecoder;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -42,8 +43,14 @@ public class PersonService {
 
                 throw pe;
             } else {
+                List<Map<String, Object>> people = null;
                 Map<String, Object> responseMap = (Map<String, Object>) result.getData();
-                List<Map<String, Object>> people = (List<Map<String, Object>>) responseMap.get(PersonGraph.OUTPUT_KEY);
+                Object payload = responseMap.get(PersonGraph.OUTPUT_KEY);
+                if (payload instanceof Map) {
+                    people = Arrays.asList((Map<String, Object>) payload);
+                } else if (payload instanceof List) {
+                    people = (List<Map<String, Object>>) payload;
+                }
 
                 return people;
             }

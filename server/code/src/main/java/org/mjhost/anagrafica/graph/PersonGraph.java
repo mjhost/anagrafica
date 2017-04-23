@@ -33,6 +33,8 @@ public class PersonGraph {
 
     public static final String OUTPUT_KEY = "person";
 
+    public static final String ID_KEY = "id";
+
     public static final String NAME_KEY = "name";
 
     public static final String HOBBY_KEY = "hobby";
@@ -47,6 +49,7 @@ public class PersonGraph {
     @PostConstruct
     public void init() {
         nameToQueryMap = new HashMap<>();
+        nameToQueryMap.put("findById", findById());
         nameToQueryMap.put("findByName", findByName());
         nameToQueryMap.put("findByHobby", findByHobby());
         nameToQueryMap.put("findByEmployment", findByEmployment());
@@ -186,6 +189,36 @@ public class PersonGraph {
             .build();
     }
 
+    public GraphQLObjectType findById() {
+        return newObject()
+//            query name
+            .name("findById")
+//            field is what the query has to return
+            .field(f -> f
+//                the name of the key in the output map
+                .name(OUTPUT_KEY)
+                .description("The output of the query will be an instance of person type")
+//                query must return a list of person type
+                .type(new GraphQLTypeReference("Person"))
+                .argument(a -> a
+                    .name(ID_KEY)
+                    .description("Person id as an input parameter")
+                    .type(GraphQLBigInteger)
+                )
+//                data fetcher specifies the component in charge of retrieving the actual data to be returned
+                .dataFetcher(environment -> {
+                    Map<String, Object> arguments = environment.getArguments();
+                    Object id = arguments.get(ID_KEY);
+                    if(id != null) {
+                        return personRepository.findById(Long.valueOf(id.toString()));
+                    } else {
+                        return null;
+                    }
+                })
+            )
+            .build();
+    }
+
     public GraphQLObjectType findByName() {
         return newObject()
 //            query name
@@ -194,7 +227,7 @@ public class PersonGraph {
             .field(f -> f
 //                the name of the key in the output map
                 .name(OUTPUT_KEY)
-                .description("The output of the query will be an instance of person type")
+                .description("The output of the query will be a list of instances of person type")
 //                query must return a list of person type
                 .type(new GraphQLList(new GraphQLTypeReference("Person")))
 //                query must expect some input params

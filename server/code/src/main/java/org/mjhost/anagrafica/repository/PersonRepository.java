@@ -7,7 +7,6 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import javax.validation.constraints.NotNull;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
@@ -30,6 +29,15 @@ public interface PersonRepository extends GraphRepository<Person> {
             " p "
     )
     List<Person> findByFullName(@NotNull @Param("fn") String firstName, @NotNull @Param("ln") String lastName);
+
+    @Query(
+        " MATCH " +
+            " (p:Person)-[r]->(t) " +
+        " WHERE " +
+            " ID(p) = {id} " +
+        " RETURN p, r, t "
+    )
+    Person findById(@NotNull @Param("id") Long id);
 
     @Query(
         " MATCH " +
