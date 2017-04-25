@@ -11,7 +11,7 @@ import org.neo4j.ogm.annotation.typeconversion.Convert;
 import java.time.LocalDateTime;
 
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-@RelationshipEntity(type = "BORN_IN")
+@RelationshipEntity(type = "BORN")
 public class Birth {
 
     @GraphId

@@ -11,6 +11,8 @@ public class Dashboard {
 
     private List<Wedding> weddings;
 
+    List<Person> deaths;
+
     public List<Person> getBirthdays() {
         return birthdays;
     }
@@ -25,5 +27,13 @@ public class Dashboard {
 
     public void setWeddings(List<Wedding> weddings) {
         this.weddings = weddings;
+    }
+
+    public List<Person> getDeaths() {
+        return deaths;
+    }
+
+    public void setDeaths(List<Person> deaths) {
+        this.deaths = deaths;
     }
 }

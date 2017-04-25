@@ -73,8 +73,17 @@ public interface PersonRepository extends GraphRepository<Person> {
     )
     List<Person> findByEmployment(@NotNull @Param("em") String employment);
 
-
-
+    @Query(
+        " MATCH " +
+            " (p:Person)-[d:DEAD]-() " +
+        " WHERE " +
+            " d IS NOT NULL AND " +
+            " EXISTS((p)-[:IS_CHILD_OF|IS_PARENT_OF|IS_SIBLING_OF]-()) " +
+        " WITH p MATCH " +
+            " (p)-[r:IS_CHILD_OF|IS_PARENT_OF|IS_SIBLING_OF|BORN]->(n) " +
+        " RETURN p, r "
+    )
+    List<Person> findDead();
 
 
 

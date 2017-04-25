@@ -1,6 +1,8 @@
 package org.mjhost.anagrafica.controller;
 
 import org.mjhost.anagrafica.model.node.Person;
+import org.mjhost.anagrafica.model.relationship.Child;
+import org.mjhost.anagrafica.model.relationship.Parent;
 import org.mjhost.anagrafica.model.relationship.Wedding;
 import org.mjhost.anagrafica.repository.LocationRepository;
 import org.mjhost.anagrafica.repository.OrganizationRepository;
@@ -38,7 +40,11 @@ public class InitController {
         Person mm = MassimoManfredinoBuilder.build();
         ag.setWedding(new Wedding(ag, mm, LocalDateTime.of(2002, 10, 24, 12, 0, 0)));
         personRepository.save(ag);
-//        personRepository.save(mm);
+
+        Person fm = FrancescoManfredinoBuilder.build();
+        mm.addParent(new Child(mm, fm));
+        fm.addChild(new Parent(fm, mm));
+        personRepository.save(fm);
 
         personRepository.save(GaioGraccoBuilder.build());
         personRepository.save(SempronioGraccoBuilder.build());

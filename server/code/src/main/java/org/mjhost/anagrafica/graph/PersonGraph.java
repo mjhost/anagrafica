@@ -172,7 +172,7 @@ public class PersonGraph {
                 )
             )
             .field(f -> f
-                .name("consort")
+                .name("consorts")
                 .type(new GraphQLList(new GraphQLTypeReference("Person")))
                 .description("TODO")
                 .dataFetcher(
@@ -183,6 +183,42 @@ public class PersonGraph {
                         } else {
                             return null;
                         }
+                    }
+                )
+            )
+            .field(f -> f
+                .name("children")
+                .type(new GraphQLList(new GraphQLTypeReference("Person")))
+                .description("TODO")
+                .dataFetcher(
+                    environment -> {
+                        List<Person> children = new LinkedList<>();
+                        ((Person) environment.getSource()).getChildren().stream().forEach(p -> children.add(p.getChild()));
+                        return children;
+                    }
+                )
+            )
+            .field(f -> f
+                .name("parents")
+                .type(new GraphQLList(new GraphQLTypeReference("Person")))
+                .description("TODO")
+                .dataFetcher(
+                    environment -> {
+                        List<Person> parents = new LinkedList<>();
+                        ((Person) environment.getSource()).getParents().stream().forEach(c -> parents.add(c.getParent()));
+                        return parents;
+                    }
+                )
+            )
+            .field(f -> f
+                .name("siblings")
+                .type(new GraphQLList(new GraphQLTypeReference("Person")))
+                .description("TODO")
+                .dataFetcher(
+                    environment -> {
+                        List<Person> siblings = new LinkedList<>();
+                        ((Person) environment.getSource()).getSiblings().stream().forEach(s -> siblings.add(s.getSibling()));
+                        return siblings;
                     }
                 )
             )

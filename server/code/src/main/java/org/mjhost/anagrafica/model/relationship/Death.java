@@ -11,7 +11,7 @@ import org.neo4j.ogm.annotation.typeconversion.Convert;
 import java.time.LocalDateTime;
 
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-@RelationshipEntity(type = "DEAD_IN")
+@RelationshipEntity(type = "DEAD")
 public class Death {
 
     @GraphId

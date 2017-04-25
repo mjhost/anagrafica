@@ -40,7 +40,8 @@ public class DashboardService {
                     "husband{id firstName lastName} " +
                     "wife{id firstName lastName} " +
                     "age " +
-                "}" +
+                "} " +
+                 "deaths{id firstName lastName age consorts{id firstName lastName} children{id firstName lastName} parents{id firstName lastName} siblings{id firstName lastName}}" +
             "}}";
 
 //        TODO : MUST HANDLE DYNAMIC MESSAGES, EXCEPTIONS AND LOG

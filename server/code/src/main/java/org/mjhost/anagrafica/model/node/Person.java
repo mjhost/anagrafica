@@ -40,11 +40,20 @@ public class Person {
     @Relationship(type = "HAS_ADDRESS", direction = Relationship.OUTGOING)
     private Set<Address> addresses = new HashSet<>();
 
-    @Relationship(type = "BORN_IN", direction = Relationship.OUTGOING)
+    @Relationship(type = "BORN", direction = Relationship.OUTGOING)
     private Birth birth;
 
-    @Relationship(type = "DEAD_IN", direction = Relationship.OUTGOING)
+    @Relationship(type = "DEAD", direction = Relationship.OUTGOING)
     private Death death;
+
+    @Relationship(type = "IS_PARENT_OF", direction = Relationship.OUTGOING)
+    private Set<Parent> children = new HashSet<>();
+
+    @Relationship(type = "IS_CHILD_OF", direction = Relationship.OUTGOING)
+    private Set<Child> parents = new HashSet<>();
+
+    @Relationship(type = "IS_SIBLING_OF", direction = Relationship.OUTGOING)
+    private Set<Sibling> siblings = new HashSet<>();
 
     @Relationship(type = "IS_EMPLOYED_AS", direction = Relationship.OUTGOING)
     private Set<Employment> employments = new HashSet<>();
@@ -130,6 +139,30 @@ public class Person {
 
     public void setDeath(Death death) {
         this.death = death;
+    }
+
+    public Set<Child> getParents() {
+        return parents;
+    }
+
+    public void addParent(Child child) {
+        this.parents.add(child);
+    }
+
+    public Set<Parent> getChildren() {
+        return children;
+    }
+
+    public void addChild(Parent parent) {
+        this.children.add(parent);
+    }
+
+    public Set<Sibling> getSiblings() {
+        return siblings;
+    }
+
+    public void addSibling(Sibling sibling) {
+        this.siblings.add(sibling);
     }
 
     public Set<Employment> getEmployments() {

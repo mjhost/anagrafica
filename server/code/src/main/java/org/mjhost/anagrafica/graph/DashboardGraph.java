@@ -3,18 +3,16 @@ package org.mjhost.anagrafica.graph;
 import graphql.schema.GraphQLList;
 import graphql.schema.GraphQLObjectType;
 import graphql.schema.GraphQLTypeReference;
+import org.mjhost.anagrafica.model.node.Person;
 import org.mjhost.anagrafica.model.pojo.Dashboard;
 import org.mjhost.anagrafica.repository.PersonRepository;
 import org.mjhost.anagrafica.repository.WeddingRepository;
-import org.mjhost.anagrafica.utils.test.GaioGraccoBuilder;
-import org.mjhost.anagrafica.utils.test.SempronioGraccoBuilder;
-import org.mjhost.anagrafica.utils.test.TiberioGraccoBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static graphql.schema.GraphQLObjectType.newObject;
@@ -57,6 +55,11 @@ public class DashboardGraph {
                 .description("TODO")
                 .type(new GraphQLList(new GraphQLTypeReference("Wedding")))
             )
+            .field(f -> f
+                .name("deaths")
+                .description("TODO")
+                .type(new GraphQLList(new GraphQLTypeReference("Person")))
+            )
             .build();
     }
 
@@ -78,8 +81,12 @@ public class DashboardGraph {
 
 //                    WARN: THIS IS A MOCK
                     dashboard.setBirthdays(personRepository.findByName("Gracco"));
-                    dashboard.setWeddings(weddingRepository.findAll());
 //                    WARN: THIS IS A MOCK
+                    dashboard.setWeddings(weddingRepository.findAll());
+
+//                    TODO: THIS MUST BE FIXED
+                    List<Person> dead = personRepository.findDead();
+                    dashboard.setDeaths(dead);
 
                     return dashboard;
                 })
