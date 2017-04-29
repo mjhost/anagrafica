@@ -40,9 +40,16 @@ public class InitController {
         personRepository.save(ag);
 
         Person fm = FrancescoManfredinoBuilder.build();
+        Person cm = CarmelaManfredinoBuilder.build();
+
         mm.addParent(fm);
         fm.addChild(mm);
+
+        cm.addSibling(fm);
+        fm.addSibling(cm);
+
         personRepository.save(fm);
+        personRepository.save(cm);
 
         personRepository.save(GaioGraccoBuilder.build());
         personRepository.save(SempronioGraccoBuilder.build());
