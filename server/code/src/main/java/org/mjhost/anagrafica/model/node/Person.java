@@ -47,13 +47,13 @@ public class Person {
     private Death death;
 
     @Relationship(type = "IS_PARENT_OF", direction = Relationship.OUTGOING)
-    private Set<Parent> children = new HashSet<>();
+    private Set<Person> children = new HashSet<>();
 
     @Relationship(type = "IS_CHILD_OF", direction = Relationship.OUTGOING)
-    private Set<Child> parents = new HashSet<>();
+    private Set<Person> parents = new HashSet<>();
 
     @Relationship(type = "IS_SIBLING_OF", direction = Relationship.OUTGOING)
-    private Set<Sibling> siblings = new HashSet<>();
+    private Set<Person> siblings = new HashSet<>();
 
     @Relationship(type = "IS_EMPLOYED_AS", direction = Relationship.OUTGOING)
     private Set<Employment> employments = new HashSet<>();
@@ -141,27 +141,27 @@ public class Person {
         this.death = death;
     }
 
-    public Set<Child> getParents() {
+    public Set<Person> getParents() {
         return parents;
     }
 
-    public void addParent(Child child) {
+    public void addParent(Person child) {
         this.parents.add(child);
     }
 
-    public Set<Parent> getChildren() {
+    public Set<Person> getChildren() {
         return children;
     }
 
-    public void addChild(Parent parent) {
+    public void addChild(Person parent) {
         this.children.add(parent);
     }
 
-    public Set<Sibling> getSiblings() {
+    public Set<Person> getSiblings() {
         return siblings;
     }
 
-    public void addSibling(Sibling sibling) {
+    public void addSibling(Person sibling) {
         this.siblings.add(sibling);
     }
 

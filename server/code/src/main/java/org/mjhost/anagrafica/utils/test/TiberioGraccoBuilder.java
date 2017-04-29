@@ -74,6 +74,7 @@ public class TiberioGraccoBuilder {
         p.setTitle("Mr");
         p.setEducationLevel(EducationLevel.PHD);
         p.setBirth(new Birth(p, getBirthLocation(), LocalDateTime.now().minusYears(12)));
+        p.setDeath(new Death(p, getHomeLocation(), LocalDateTime.of(1970, 1, 1, 0, 0, 0)));
         p.addAddress(new Address(p, getHomeLocation(), LocalDateTime.now().minusYears(3), ContactType.HOME));
         p.addReference(new Reference(p, getHomeContact(), ContactType.HOME));
         getJobs().stream().forEach(j -> p.addEmployment(new Employment(p, j, LocalDateTime.now().minusYears(18))));

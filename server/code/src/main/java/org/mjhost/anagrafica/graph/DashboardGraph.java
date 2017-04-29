@@ -14,6 +14,7 @@ import javax.annotation.PostConstruct;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static graphql.schema.GraphQLObjectType.newObject;
 
@@ -81,12 +82,10 @@ public class DashboardGraph {
 
 //                    WARN: THIS IS A MOCK
                     dashboard.setBirthdays(personRepository.findByName("Gracco"));
-//                    WARN: THIS IS A MOCK
+//                    NOT VERY HAPPY ABOUT THIS!!!!
+                    dashboard.setDeaths(personRepository.findDead().stream().filter(d -> d.getDeath() != null).collect(Collectors.toList()));
                     dashboard.setWeddings(weddingRepository.findAll());
-
-//                    TODO: THIS MUST BE FIXED
-                    List<Person> dead = personRepository.findDead();
-                    dashboard.setDeaths(dead);
+//                    WARN: THIS IS A MOCK
 
                     return dashboard;
                 })

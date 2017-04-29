@@ -70,11 +70,11 @@ public class FrancescoManfredinoBuilder {
         p.setTitle("Mr");
         p.setEducationLevel(EducationLevel.MASTER_DEGREE);
         p.setBirth(new Birth(p, getBirthLocation(), LocalDateTime.of(1942, 9, 7, 0, 0)));
+        p.setDeath(new Death(p, getHomeLocation(), LocalDateTime.of(2012, 4, 12, 0, 0, 0)));
         p.addAddress(new Address(p, getHomeLocation(), LocalDateTime.now().minusYears(50), ContactType.HOME));
         p.addReference(new Reference(p, getHomeContact(), ContactType.HOME));
         getJobs().stream().forEach(j -> p.addEmployment(new Employment(p, j, LocalDateTime.now().minusYears(18))));
         getHobbies().stream().forEach(h -> p.addHobby(new Hobby(p, h, LocalDateTime.now().minusMonths(60))));
-        p.setDeath(new Death(p, getHomeLocation(), LocalDateTime.of(2012, 4, 12, 0, 0, 0)));
         return p;
     }
 }

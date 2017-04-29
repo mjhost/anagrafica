@@ -47,7 +47,7 @@ public interface PersonRepository extends GraphRepository<Person> {
             " TOLOWER(p.last_name + \" \" + p.first_name) CONTAINS(TOLOWER({fn})) " +
         " WITH p MATCH " +
             " (p)-[r]->(t) " +
-        " RETURN p, r, t"
+        " RETURN p, r, t "
     )
     List<Person> findByName(@NotNull @Param("fn") String name);
 
@@ -58,7 +58,7 @@ public interface PersonRepository extends GraphRepository<Person> {
             " TOLOWER(s.name) CONTAINS TOLOWER({ho}) " +
         " WITH p MATCH " +
             " (p)-[r]->(t) " +
-        " RETURN p, r, t"
+        " RETURN p, r, t "
     )
     List<Person> findByHobby(@NotNull @Param("ho") String hobby);
 
@@ -69,19 +69,18 @@ public interface PersonRepository extends GraphRepository<Person> {
             " TOLOWER(j.name) CONTAINS TOLOWER({em}) " +
         " WITH p MATCH " +
             " (p)-[r]->(t) " +
-        " RETURN p, r, t"
+        " RETURN p, r, t "
     )
     List<Person> findByEmployment(@NotNull @Param("em") String employment);
 
     @Query(
         " MATCH " +
-            " (p:Person)-[d:DEAD]-() " +
+            " (p:Person) " +
         " WHERE " +
-            " d IS NOT NULL AND " +
-            " EXISTS((p)-[:IS_CHILD_OF|IS_PARENT_OF|IS_SIBLING_OF]-()) " +
-        " WITH p MATCH " +
-            " (p)-[r:IS_CHILD_OF|IS_PARENT_OF|IS_SIBLING_OF|BORN]->(n) " +
-        " RETURN p, r "
+            " EXISTS((p)-[:IS_CHILD_OF|IS_PARENT_OF|IS_SIBLING_OF]->()) AND " +
+            " EXISTS((p)-[:DEAD]->()) " +
+        " RETURN " +
+            " (p)-[]->() "
     )
     List<Person> findDead();
 
@@ -93,28 +92,4 @@ public interface PersonRepository extends GraphRepository<Person> {
     @Query("MATCH (n) OPTIONAL MATCH (n)-[r]-() DELETE n,r")
     void clearDatabase();
 //    WARN: THIS IS JUST FOR TESTING PURPOSES AND MUST BE DELETED
-
-
-
-
-//    @Query(
-//        " MATCH " +
-//            " (g:Person)-[mg:GOT_MARRIED_AT]->(p:Organization)<-[mb:GOT_MARRIED_AT]-(b:Person) " +
-//        " WHERE " +
-//            " b.first_name = {fn} AND b.last_name = {ln} AND mg.document_record = mb.document_record " +
-//        " RETURN " +
-//            " g AS groom, mg as wedding"
-//    )
-//    Person findGroomByBrideName(@NotNull @Param("fn") String firstName, @NotNull @Param("ln") String lastName);
-
-
-
-//    @Query("MATCH (m:Movie) WHERE m.title =~ ('(?i).*'+{title}+'.*') RETURN m")
-//    Collection<Movie> findByTitleContaining(@Param("title") String title);
-//
-//    @Query("MATCH (m:Movie)<-[r:ACTED_IN]-(a:Person) RETURN m,r,a LIMIT {limit}")
-//    Collection<Movie> graph(@Param("limit") int limit);
-
-
-
 }

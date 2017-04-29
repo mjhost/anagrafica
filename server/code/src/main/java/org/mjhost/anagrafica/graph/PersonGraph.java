@@ -8,6 +8,7 @@ import org.mjhost.anagrafica.model.node.Contact;
 import org.mjhost.anagrafica.model.node.Location;
 import org.mjhost.anagrafica.model.node.Person;
 import org.mjhost.anagrafica.model.relationship.Birth;
+import org.mjhost.anagrafica.model.relationship.Death;
 import org.mjhost.anagrafica.model.relationship.Wedding;
 import org.mjhost.anagrafica.repository.PersonRepository;
 import org.mjhost.anagrafica.utils.TrimUtils;
@@ -104,6 +105,24 @@ public class PersonGraph {
                     }
                 )
             )
+//            this is a computed field
+            .field(f -> f
+                .name("dead")
+                .type(GraphQLString)
+                .description("TODO")
+                .dataFetcher(
+                    environment -> {
+                        Death death = ((Person) environment.getSource()).getDeath();
+                        if (death != null) {
+                            LocalDateTime dd = death.getDate();
+                            Period p = Period.between(dd.toLocalDate(), LocalDate.now());
+                            return String.valueOf(p.getYears());
+                        } else {
+                            return null;
+                        }
+                    }
+                )
+            )
             .field(f -> f
                 .name("title")
                 .type(GraphQLString)
@@ -172,8 +191,8 @@ public class PersonGraph {
                 )
             )
             .field(f -> f
-                .name("consorts")
-                .type(new GraphQLList(new GraphQLTypeReference("Person")))
+                .name("consort")
+                .type(new GraphQLTypeReference("Person"))
                 .description("TODO")
                 .dataFetcher(
                     environment -> {
@@ -193,7 +212,7 @@ public class PersonGraph {
                 .dataFetcher(
                     environment -> {
                         List<Person> children = new LinkedList<>();
-                        ((Person) environment.getSource()).getChildren().stream().forEach(p -> children.add(p.getChild()));
+                        ((Person) environment.getSource()).getChildren().stream().forEach(c -> children.add(c));
                         return children;
                     }
                 )
@@ -205,7 +224,7 @@ public class PersonGraph {
                 .dataFetcher(
                     environment -> {
                         List<Person> parents = new LinkedList<>();
-                        ((Person) environment.getSource()).getParents().stream().forEach(c -> parents.add(c.getParent()));
+                        ((Person) environment.getSource()).getParents().stream().forEach(p -> parents.add(p));
                         return parents;
                     }
                 )
@@ -217,7 +236,7 @@ public class PersonGraph {
                 .dataFetcher(
                     environment -> {
                         List<Person> siblings = new LinkedList<>();
-                        ((Person) environment.getSource()).getSiblings().stream().forEach(s -> siblings.add(s.getSibling()));
+                        ((Person) environment.getSource()).getSiblings().stream().forEach(s -> siblings.add(s));
                         return siblings;
                     }
                 )
