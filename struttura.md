@@ -1,9 +1,10 @@
-#Archivio persone (della parrocchia)
-##ipotesi mongodb
+# Archivio persone (della parrocchia)
+
+## ipotesi mongodb
 
 mongodb come archivio di grafi (frontend in react)
 
-2 collection: 
+2 collection:
     1 entities
     2 relations
 
@@ -18,17 +19,16 @@ tipi di relazioni:
     1 persona - 1 gruppo di persone (affiliazioni)
 
 tipi di ricerche:
-    ricerca per relazione evento 
-        - tutte le persone che hanno una relazione con l'evento x 
-        - tutte le persone che hanno una relazione con gli eventi di tipo x 
+    ricerca per relazione evento
+        - tutte le persone che hanno una relazione con l'evento x
+        - tutte le persone che hanno una relazione con gli eventi di tipo x
     ricerca per gruppi di persone
         - tutti gli affiliati ad un gruppo
     ricerca per persona
         - la persona + tutte le persone che hanno una relazione con la persona
-    
 
 persona = {
-    _id: 
+    _id:
     tipo: persona
     nome:
     cognome:
@@ -39,7 +39,7 @@ persona = {
     recapiti: {
         indirizzi: [
             {
-              via: 
+              via:
               cap:
               pr:
               comune:
@@ -49,7 +49,7 @@ persona = {
         ]
         tel: [
             {
-                tipo: 
+                tipo:
                 numero:
                 note:
             }
@@ -59,12 +59,12 @@ persona = {
         {
             id: -> foreign key
             tipo: -> enum o lista di entità
-            note: -> 
+            note: ->
         }
     ]
     hobby: [] -> enum -> potrebbe essere una relazione con un gruppo di praticanti di cose
     studi: [] -> potrebbe essere una relazione con un gruppo di tipo studio-materia
-    note: 
+    note:
 }
 
 gruppo = {
@@ -73,8 +73,8 @@ gruppo = {
 }
 
 evento = {
-    nome: 
-    data: 
+    nome:
+    data:
     note:
 }
 
