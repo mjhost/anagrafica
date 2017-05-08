@@ -49,10 +49,10 @@ public class Person {
     @Relationship(type = "IS_PARENT_OF", direction = Relationship.OUTGOING)
     private Set<Person> children = new HashSet<>();
 
-    @Relationship(type = "IS_CHILD_OF", direction = Relationship.OUTGOING)
+    @Relationship(type = "IS_PARENT_OF", direction = Relationship.INCOMING)
     private Set<Person> parents = new HashSet<>();
 
-    @Relationship(type = "IS_SIBLING_OF", direction = Relationship.OUTGOING)
+    @Relationship(type = "IS_SIBLING_OF", direction = Relationship.UNDIRECTED)
     private Set<Person> siblings = new HashSet<>();
 
     @Relationship(type = "IS_EMPLOYED_AS", direction = Relationship.OUTGOING)
@@ -64,7 +64,7 @@ public class Person {
     @Relationship(type = "HAS_REFERENCES", direction = Relationship.OUTGOING)
     private Set<Reference> references = new HashSet<>();
 
-    @Relationship(type = "IS_MARRIED_TO", direction = Relationship.OUTGOING)
+    @Relationship(type = "IS_MARRIED_TO", direction = Relationship.UNDIRECTED)
     private Wedding wedding;
 
     public Person() {}

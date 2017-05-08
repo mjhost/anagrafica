@@ -77,10 +77,10 @@ public interface PersonRepository extends GraphRepository<Person> {
         " MATCH " +
             " (p:Person) " +
         " WHERE " +
-            " EXISTS((p)-[:IS_CHILD_OF|IS_PARENT_OF|IS_SIBLING_OF]->()) AND " +
+            " EXISTS((p)-[:IS_PARENT_OF|IS_SIBLING_OF]-()) AND " +
             " EXISTS((p)-[:DEAD]->()) " +
         " RETURN " +
-            " (p)-[]->() "
+            " (p)-[:IS_PARENT_OF|IS_SIBLING_OF|DEAD]-() "
     )
     List<Person> findDead();
 

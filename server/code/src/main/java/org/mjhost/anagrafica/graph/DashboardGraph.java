@@ -3,7 +3,6 @@ package org.mjhost.anagrafica.graph;
 import graphql.schema.GraphQLList;
 import graphql.schema.GraphQLObjectType;
 import graphql.schema.GraphQLTypeReference;
-import org.mjhost.anagrafica.model.node.Person;
 import org.mjhost.anagrafica.model.pojo.Dashboard;
 import org.mjhost.anagrafica.repository.PersonRepository;
 import org.mjhost.anagrafica.repository.WeddingRepository;
@@ -12,7 +11,6 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
