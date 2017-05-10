@@ -23,7 +23,7 @@ public class MainController {
     }
 
     @RequestMapping(path = "/graphql/{context}/{queryName}", method = RequestMethod.POST)
-    public List<Map<String, Object>> graphQL(
+    public Object graphQL(
         @PathVariable(value = "context") String context,
         @PathVariable(value = "queryName") String queryName,
         @RequestBody String query
@@ -33,7 +33,7 @@ public class MainController {
             Method handler = mainService.getClass().getDeclaredMethod(
                 graphManager.getRequestHandler(context, queryName), String.class, String.class
             );
-            return (List<Map<String, Object>>) handler.invoke(mainService, queryName, query);
+            return handler.invoke(mainService, queryName, query);
         } catch (Exception e) {
             e.printStackTrace();
         }

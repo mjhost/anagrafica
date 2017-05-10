@@ -56,6 +56,10 @@ public class GraphManager {
             new AbstractMap.SimpleEntry<String, String>(PEOPLE.toString(), FIND_BY_EMPLOYMENT.toString()),
             FIND_PEOPLE.toString()
         );
+        requestHandlerMap.put(
+            new AbstractMap.SimpleEntry<String, String>(SYSTEM.toString(), DASHBOARD.toString()),
+            SYSTEM_DASHBOARD.toString()
+        );
 
         dictionary = new HashSet<>(Arrays.asList(
             dashboardGraph.dashboard(), contactGraph.contact(), locationGraph.location(), personGraph.person(),

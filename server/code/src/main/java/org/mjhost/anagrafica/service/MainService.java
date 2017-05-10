@@ -1,8 +1,9 @@
 package org.mjhost.anagrafica.service;
 
+import org.mjhost.anagrafica.dao.IDashboardDao;
 import org.mjhost.anagrafica.dao.IPersonDao;
-import org.mjhost.anagrafica.dao.PersonDao;
 import org.mjhost.anagrafica.exception.PersonException;
+import org.mjhost.anagrafica.exception.SystemException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.PropertySources;
@@ -15,10 +16,20 @@ import java.util.Map;
 @PropertySources({
     @PropertySource("classpath:exception_message.properties")
 })
-public class MainService implements IPersonDao {
+public class MainService implements IDashboardDao, IPersonDao {
 
     @Autowired
     private IPersonDao personDao;
+
+    @Autowired
+    private IDashboardDao dashboardDao;
+
+//    dashboard management
+
+    @Override
+    public Map<String, Object> systemDashboard(String queryName, String query) throws SystemException {
+        return dashboardDao.systemDashboard(queryName, query);
+    }
 
 //    people management
 

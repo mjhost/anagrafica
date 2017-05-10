@@ -2,6 +2,8 @@ package org.mjhost.anagrafica.enumeration;
 
 public enum RequestUrlQuery {
 
+    DASHBOARD("dashboard"),
+
     FIND_BY_EMPLOYMENT("findByEmployment"),
 
     FIND_BY_ID("findById"),
