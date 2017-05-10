@@ -1,16 +1,11 @@
-package org.mjhost.anagrafica.service;
+package org.mjhost.anagrafica.dao;
 
 import graphql.ExecutionResult;
 import graphql.GraphQLError;
 import org.apache.commons.collections4.CollectionUtils;
 import org.mjhost.anagrafica.exception.PersonException;
-import org.mjhost.anagrafica.graph.GraphManager;
 import org.mjhost.anagrafica.graph.PersonGraph;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.context.annotation.PropertySources;
-import org.springframework.core.env.Environment;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.constraints.NotNull;
@@ -19,26 +14,18 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-@Service
-@PropertySources({
-    @PropertySource("classpath:exception_message.properties")
-})
-public class PersonService {
+@Component
+public class PersonDao extends AbstractDao implements IPersonDao {
 
-    @Autowired
-    private GraphManager graphManager;
-
-    @Autowired
-    private Environment env;
-
+    @Override
     @Transactional(readOnly = true)
     public List<Map<String, Object>> findPeople(@NotNull String queryName, @NotNull String query) throws PersonException {
 //        TODO : MUST HANDLE DYNAMIC MESSAGES, EXCEPTIONS AND LOG
         try {
-            ExecutionResult result = graphManager.getPersonGraph(queryName).execute(URLDecoder.decode(query, "UTF-8"));
+            ExecutionResult result = getGraphManager().getPersonGraph(queryName).execute(URLDecoder.decode(query, "UTF-8"));
             List<GraphQLError> errors = result.getErrors();
             if (!CollectionUtils.isEmpty(errors)) {
-                PersonException pe = new PersonException(env.getProperty("exception.graphql.query.execution"));
+                PersonException pe = new PersonException(getEnv().getProperty("exception.graphql.query.execution"));
                 pe.setErrors(errors);
 
                 throw pe;

@@ -7,11 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 import static graphql.schema.GraphQLSchema.newSchema;
+import static org.mjhost.anagrafica.enumeration.RequestHandler.*;
+import static org.mjhost.anagrafica.enumeration.RequestUrlContext.*;
+import static org.mjhost.anagrafica.enumeration.RequestUrlQuery.*;
 
 @Component
 public class GraphManager {
@@ -32,12 +33,38 @@ public class GraphManager {
     private WeddingGraph weddingGraph;
 
     private Set<GraphQLType> dictionary;
+
+    private Map<Map.Entry<String, String>, String> requestHandlerMap;
+
     @PostConstruct
     public void init() {
+//        WARN: EXTERNALIZE TO ROUTE PROPERTIES FILE?
+        requestHandlerMap = new HashMap<>();
+        requestHandlerMap.put(
+            new AbstractMap.SimpleEntry<String, String>(PEOPLE.toString(), FIND_BY_ID.toString()),
+            FIND_PEOPLE.toString()
+        );
+        requestHandlerMap.put(
+            new AbstractMap.SimpleEntry<String, String>(PEOPLE.toString(), FIND_BY_NAME.toString()),
+            FIND_PEOPLE.toString()
+        );
+        requestHandlerMap.put(
+            new AbstractMap.SimpleEntry<String, String>(PEOPLE.toString(), FIND_BY_HOBBY.toString()),
+            FIND_PEOPLE.toString()
+        );
+        requestHandlerMap.put(
+            new AbstractMap.SimpleEntry<String, String>(PEOPLE.toString(), FIND_BY_EMPLOYMENT.toString()),
+            FIND_PEOPLE.toString()
+        );
+
         dictionary = new HashSet<>(Arrays.asList(
             dashboardGraph.dashboard(), contactGraph.contact(), locationGraph.location(), personGraph.person(),
             weddingGraph.wedding()
         ));
+    }
+
+    public String getRequestHandler(String context, String query) {
+        return requestHandlerMap.get(new AbstractMap.SimpleEntry<String, String>(context, query));
     }
 
     public GraphQL getPersonGraph(String queryName) {
