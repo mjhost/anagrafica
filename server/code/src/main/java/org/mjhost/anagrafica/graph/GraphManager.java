@@ -10,9 +10,9 @@ import javax.annotation.PostConstruct;
 import java.util.*;
 
 import static graphql.schema.GraphQLSchema.newSchema;
-import static org.mjhost.anagrafica.enumeration.RequestHandler.*;
-import static org.mjhost.anagrafica.enumeration.RequestUrlContext.*;
-import static org.mjhost.anagrafica.enumeration.RequestUrlQuery.*;
+import static org.mjhost.anagrafica.request.RequestHandler.*;
+import static org.mjhost.anagrafica.request.RequestUrlContext.*;
+import static org.mjhost.anagrafica.request.RequestUrlQuery.*;
 
 @Component
 public class GraphManager {

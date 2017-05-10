@@ -1,4 +1,4 @@
-package org.mjhost.anagrafica.enumeration;
+package org.mjhost.anagrafica.request;
 
 public enum RequestHandler {
 
