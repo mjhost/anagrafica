@@ -1,2 +1,7 @@
 client/node_modules
 client-no
+node-server/node_modules/
+node-server/.vscode/
+server/code/.classpath
+server/code/.settings/
+server/code/.project

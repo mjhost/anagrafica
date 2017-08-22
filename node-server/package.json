@@ -1,0 +1,31 @@
+{
+  "name": "express-graphql-neo4j",
+  "version": "0.0.1",
+  "description": "node server for anagrafica",
+  "main": "server.js",
+  "scripts": {
+    "start": "nodemon ./server.js --exec babel-node",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "babel": {
+    "presets": [
+      "env"
+    ]
+  },
+  "author": "paolommj@gmail.com",
+  "license": "ISC",
+  "dependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-plugin-inline-import": "^2.0.6",
+    "babel-preset-env": "^1.6.0",
+    "body-parser": "^1.17.2",
+    "cors": "^2.8.4",
+    "cross-env": "^5.0.5",
+    "express": "^4.15.4",
+    "graphql": "^0.10.5",
+    "graphql-server-express": "^1.1.0",
+    "graphql-tools": "^1.2.1",
+    "neo4j-driver": "^1.4.0",
+    "nodemon": "^1.11.0"
+  }
+}

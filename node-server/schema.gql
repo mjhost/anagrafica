@@ -1,0 +1,17 @@
+enum Sex {
+    M
+    F
+}
+
+interface Relation {
+    since: Int
+}
+
+type Person {
+    id: ID!
+    firstName: String!
+    lastName: String!
+    sex: Sex!
+    educationLevel: String
+    title: String   
+}
