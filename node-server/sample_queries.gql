@@ -1,0 +1,95 @@
+query Query {
+  jane: findByID(uuid: "2") {
+    first_name
+    last_name
+    uuid
+    years
+    born {
+      date
+      location {
+        city
+        country
+      }
+    }
+  }
+  john: findByID(uuid: "1") {
+    first_name
+    last_name
+    uuid
+    years
+    born {
+      date
+      location {
+        city
+        country
+      }
+    }
+  }
+  people: findByName(name: "bod") {
+    first_name
+    last_name
+    uuid
+    born {
+      date
+      location {
+        city
+      }
+    }
+  }
+  day2911: dashboard(date: 1511913600000) {
+    date
+    birthdays {
+      uuid
+      first_name
+      last_name
+      years
+    }
+    deaths {
+      uuid
+      first_name
+      last_name
+      years
+    }
+    weddings {
+      years
+      bride {
+        uuid
+        first_name
+        last_name
+      }
+      groom {
+        uuid
+        first_name
+        last_name
+      }
+    }
+  }
+  day: dashboard(date: 1527033600000) {
+    date
+    birthdays {
+      uuid
+      first_name
+      last_name
+      years
+    }
+    deaths {
+      uuid
+      first_name
+      last_name
+      years
+    }
+    weddings {
+      years
+      bride {
+        uuid
+        first_name
+        last_name
+      }
+      groom {
+        uuid
+        first_name
+        last_name
+      }
+    }
+  }
+}

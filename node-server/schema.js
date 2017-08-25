@@ -19,6 +19,7 @@ const typeDefs = `
     }
 
     type Location {
+        uuid:ID
         country: String
         province: String
         city: String
@@ -36,14 +37,13 @@ const typeDefs = `
     }
 
     type Person {
-        id: ID!
+        uuid: ID
         first_name: String!
         last_name: String!
         sex: Sex!
         education_level: String
         title: String
         born: Birth
-        age: Int
         years: Int
     }
 
@@ -59,19 +59,45 @@ const typeDefs = `
     }
 
     type Dashboard {
-        date: Date!
-        birthdays: [Person]!
-        weddings: [Couple]!
-        deaths: [Person]!
+        date: Date
+        birthdays: [Person]
+        weddings: [Couple]
+        deaths: [Person]
     }
 
     type Query {
+        findByID(uuid: String!, limit: Int): [Person!]
         findByName(name: String!, limit: Int): [Person!]
-        dashboard(date: Date): Dashboard!
+        dashboard(date: Date): Dashboard
+    }
+
+    input LocationInput {
+        country: String
+        province: String
+        city: String
+        street: String
+        name: String
+        state: String
+        zip_code: String
+        lng: Float
+        lat: Float        
+    }
+
+    input PersonInput {
+        first_name: String!
+        last_name: String!
+        sex: Sex!
+        birthday: Date
+        birthplace: LocationInput
+    }
+
+    type Mutation {
+        addPerson( data: PersonInput ) :Person
     }
 
     schema {
         query: Query
+        mutation: Mutation
     }
 `;
 
@@ -80,9 +106,8 @@ const typeDefs = `
 const resolvers = {
     Date : new GraphQLScalarType({
         name: "Date",
-        description: 'Every time you need a date you need a custom scalar:|',
+        description: 'Every time you need a date you need a custom scalar :|',
         parseValue(value) {
-            console.log('parseValue', value);
             return (new Date(value)).getTime();
         },
         serialize(value){
@@ -93,13 +118,56 @@ const resolvers = {
         },
         parseLiteral(ast){
             if(ast.kind === Kind.INT){
-                console.log('parseLiteral', ast.value);
                 return parseInt(ast.value, 10);
             }
             return null;
         }
     }),
+    Person: {
+        years(person){
+            let session = driver.session();
+            let params = {uuid: person.uuid, now: Date.now()};
+            let query = `
+MATCH (:Person {uuid:$uuid})-[r:BORN]->(l:Location)
+RETURN (toInteger(apoc.date.format($now - r.date, 'ms', 'yyyy', 'CET'))) - 1970 as years
+            `;
+            return session.run(query, params).then( result => result.records.map(record => record.get("years")));
+        },
+        born(person){
+            let session = driver.session();
+            let params = {uuid: person.uuid};
+            let query = `
+MATCH (:Person {uuid:$uuid})-[r:BORN]->(l:Location)
+RETURN {date:r.date, location:l{.*}} as birth
+            `;
+            return session.run(query, params).then( result => result.records.map(record => record.get("birth"))[0]);
+        }
+    },
+    Mutation: {
+        addPerson(_, params){
+            let session = driver.session();
+            let query = `
+CREATE (person:Person {first_name:$first_name, last_name:$last_name, sex:$sex, uuid:apoc.create.uuid()})
+            `;
+            if(params.birthday && params.birthplace){
+                query = `${query}
+CREATE person-[:BORN {date:$birthday}]->(Location birthplace { .*, uuid:apoc.create.uuid()})
+                `;
+            }
+            query = `${query} RETURN person`
+            return session.run(query, params).then( result => result.records.map(record => record.get("person")));            
+        }
+    },
     Query: {
+        findByID(_, params) {
+            let session = driver.session();
+            let query = `
+MATCH (p:Person {uuid: $uuid})
+WITH p OPTIONAL MATCH (p)-[born:BORN]->(l:Location)
+RETURN p {.*} as person
+            `;
+            return session.run(query, params).then( result => result.records.map(record => record.get("person")));
+        },
         findByName(_, params) {
             let session = driver.session();
             let query = `
@@ -108,34 +176,50 @@ WHERE
     TOLOWER(p.first_name + " " + p.last_name) CONTAINS(TOLOWER($name))
     OR
     TOLOWER(p.last_name + " " + p.first_name) CONTAINS(TOLOWER($name))
-WITH p MATCH (p)-[born:BORN]->(l:Location)
-RETURN p { .*, id: ID(p), born: { date: born.date, location: l {.*} } } as person
+WITH p OPTIONAL MATCH (p)-[born:BORN]->(l:Location)
+RETURN p { .* } as person
             `;
             return session.run(query, params).then( result => result.records.map(record => record.get("person")));
         },
         dashboard(_, params) {
             let session = driver.session();
             params.date = params.date || Date.now();
-            let birthdays = `
+            let dashboard = `
 MATCH (born:Person)-[birth:BORN]->(birthPlace:Location)
 WHERE 
-    apoc.date.format(birth.date, 'ms', 'MMdd') = apoc.date.format($date, 'ms', 'MMdd')
-RETURN 
-    born { .*, age: (toInteger(apoc.date.format($date, 'ms', 'yyyy')) - toInteger(apoc.date.format(birth.date, 'ms', 'yyyy')))} as birthday
-            `;
-            let deaths = `
-MATCH (dead:Person)-[death:DEAD]->(deathPlace:Location)
-WHERE
-    apoc.date.format(death.date, 'ms', 'MMdd') = apoc.date.format($date, 'ms', 'MMdd')
+    apoc.date.format(birth.date, 'ms', 'MMdd', 'CET') = apoc.date.format($date, 'ms', 'MMdd', 'CET')
 RETURN
-    dead { .*, years: (toInteger(apoc.date.format($date, 'ms', 'yyyy')) - toInteger(apoc.date.format(death.date, 'ms', 'yyyy')))} as death
+    "birth" as event, born { .*, years: (toInteger(apoc.date.format($date, 'ms', 'yyyy', 'CET')) - toInteger(apoc.date.format(birth.date, 'ms', 'yyyy', 'CET')))}
+    as data
+UNION
+MATCH (dead:Dead)
+WHERE
+    apoc.date.format(dead.dead_on, 'ms', 'MMdd', 'CET') = apoc.date.format($date, 'ms', 'MMdd', 'CET')
+RETURN
+    "death" as event, dead { .*, years: (toInteger(apoc.date.format($date, 'ms', 'yyyy', 'CET')) - toInteger(apoc.date.format(dead.dead_on, 'ms', 'yyyy', 'CET')))}
+    as data
+UNION
+MATCH (groom:Person)-[wedding:IS_MARRIED_TO]->(bride:Person)
+WHERE
+    apoc.date.format(wedding.date, 'ms', 'MMdd', 'CET') = apoc.date.format($date, 'ms', 'MMdd', 'CET')
+    AND groom.sex = "M" AND bride.sex = "F"
+
+RETURN
+    "wedding" as event, { 
+        bride: bride {.*},
+        groom: groom {.*},
+        years: (toInteger(apoc.date.format($date, 'ms', 'yyyy', 'CET')) - toInteger(apoc.date.format(wedding.date, 'ms', 'yyyy', 'CET')))
+    }
+    as data
             `;
-            session.run(birthdays, params).then( result => {
-                return {
+            return session.run(dashboard, params).then( result => {
+                let r = {
                     date: params.date,
-                    birthdays: result.records.map(record => record.get("birthday")),
-                    deaths: result.records.map(record => record.get("death"))
-                };
+                    weddings: result.records.filter(record => record.get("event") === "wedding").map(record => record.get("data")),
+                    birthdays: result.records.filter(record => record.get("event") === "birth").map(record => record.get("data")),
+                    deaths: result.records.filter(record => record.get("event") === "death").map(record => record.get("data"))
+                }; 
+                return r;
             });            
         }
     }

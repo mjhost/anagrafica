@@ -15,23 +15,6 @@ RETURN
 // DASHBOARD
 MATCH (born:Person)-[birth:BORN]->(birthPlace:Location)
 WHERE 
-    apoc.date.format(birth.date, 'ms', 'MMdd') = apoc.date.format($date, 'ms', 'MMdd')
-WITH COLLECT(
-    born { .*, age: (toInteger(apoc.date.format($date, 'ms', 'yyyy')) - toInteger(apoc.date.format(birth.date, 'ms', 'yyyy')))}
-) as birthdays
-
-MATCH (dead:Person)-[death:DEAD]->(deathPlace:Location)
-WHERE
-    apoc.date.format(death.date, 'ms', 'MMdd') = apoc.date.format($date, 'ms', 'MMdd')
-WITH COLLECT(
-    dead { .*, years: (toInteger(apoc.date.format($date, 'ms', 'yyyy')) - toInteger(apoc.date.format(death.date, 'ms', 'yyyy')))}
-) as deaths
-
-return {birthdays, deaths}
-
-//
-MATCH (born:Person)-[birth:BORN]->(birthPlace:Location)
-WHERE 
     apoc.date.format(birth.date, 'ms', 'MMdd', 'CET') = apoc.date.format(1503014400000, 'ms', 'MMdd', 'CET')
 RETURN
     "birth" as event, born { .*, years: (toInteger(apoc.date.format(1503014400000, 'ms', 'yyyy', 'CET')) - toInteger(apoc.date.format(birth.date, 'ms', 'yyyy', 'CET')))}
