@@ -45,6 +45,7 @@ const typeDefs = `
         title: String
         born: Birth
         years: Int
+        age: Int
     }
 
     type Celebrated {
@@ -124,7 +125,7 @@ const resolvers = {
         }
     }),
     Person: {
-        years(person){
+        age(person){
             let session = driver.session();
             let params = {uuid: person.uuid, now: Date.now()};
             let query = `
