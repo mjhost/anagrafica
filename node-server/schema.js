@@ -92,7 +92,7 @@ const typeDefs = `
     }
 
     type Mutation {
-        addPerson( data: PersonInput ) :Person
+        addPerson( input: PersonInput ) :Person
     }
 
     schema {
@@ -146,16 +146,29 @@ RETURN {date:r.date, location:l{.*}} as birth
     Mutation: {
         addPerson(_, params){
             let session = driver.session();
+            params.input.birthplace = Object.assign({
+                address: null, zip_code: null, city: null, province:null, state:null, country: null, lat: null, lng:null
+            }, params.input.birthplace)
             let query = `
-CREATE (person:Person {first_name:$first_name, last_name:$last_name, sex:$sex, uuid:apoc.create.uuid()})
+CREATE (person:Person {first_name:$input.first_name, last_name:$input.last_name, sex:$input.sex, uuid: apoc.create.uuid()})
             `;
-            if(params.birthday && params.birthplace){
+            if(params.input.birthday && params.input.birthplace){
                 query = `${query}
-CREATE person-[:BORN {date:$birthday}]->(Location birthplace { .*, uuid:apoc.create.uuid()})
+CREATE (person)-[:BORN {date:$input.birthday}]->(:Location {
+    country: $input.birthplace.country, 
+    province: $input.birthplace.province,
+    city: $input.birthplace.city,
+    street: $input.birthplace.street,
+    state: $input.birthplace.state,
+    zip_code: $input.birthplace.zip_code,
+    lng: $input.birthplace.lng,
+    lat: $input.birthplace.lat,
+    uuid: apoc.create.uuid()
+})
                 `;
             }
-            query = `${query} RETURN person`
-            return session.run(query, params).then( result => result.records.map(record => record.get("person")));            
+            query = `${query} RETURN person {.*} as person`
+            return session.run(query, params).then( result => result.records.map(record => record.get("person"))[0]);            
         }
     },
     Query: {

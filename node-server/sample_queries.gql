@@ -93,3 +93,37 @@ query Query {
     }
   }
 }
+
+
+mutation Mutation($data :PersonInput) {
+  sigmund: addPerson(input: $data){
+      first_name,
+      last_name,
+      uuid,
+      years,
+      born {
+        date,
+        location {
+          country,
+          state,
+          city,
+          uuid
+        }
+      }
+      sex,
+  }
+}
+
+{ 
+  "data":{
+    "first_name": "Sigmund",
+    "last_name": "Freud",
+    "sex": "M",
+    "birthday": -3586636800000,
+    "birthplace": {
+      "country": "Austrian Empire",
+      "state": "Moravia",
+      "city": "Freiberg in Mähren"
+    }
+	}
+}
