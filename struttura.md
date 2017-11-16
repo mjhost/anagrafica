@@ -1,6 +1,6 @@
 # Archivio persone (della parrocchia)
 
-## ipotesi mongodb
+## ~~ipotesi mongodb~~
 
 mongodb come archivio di grafi (frontend in react)
 

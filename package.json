@@ -1,0 +1,19 @@
+{
+  "name": "anagrafica",
+  "version": "1.0.0",
+  "description": "anagrafica per parrocchia",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mjhost/anagrafica.git"
+  },
+  "author": "paolommj@gmail.com",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mjhost/anagrafica/issues"
+  },
+  "homepage": "https://github.com/mjhost/anagrafica#readme"
+}

@@ -1,17 +1,93 @@
-enum Sex {
-    M
-    F
-}
+    scalar Date
 
-interface Relation {
-    since: Int
-}
+    enum Sex {
+        M
+        F
+    }
 
-type Person {
-    id: ID!
-    firstName: String!
-    lastName: String!
-    sex: Sex!
-    educationLevel: String
-    title: String   
-}
+    interface Relation {
+        since: Int
+    }
+
+    type Location {
+        uuid:ID
+        country: String
+        province: String
+        city: String
+        street: String
+        name: String
+        state: String
+        zip_code: String
+        lng: Float
+        lat: Float
+    }
+
+    type Birth {
+        date: Date
+        location: Location
+    }
+
+    type Person {
+        uuid: ID
+        first_name: String!
+        last_name: String!
+        sex: Sex!
+        education_level: String
+        title: String
+        born: Birth
+        years: Int
+        age: Int
+    }
+
+    type Celebrated {
+        age: Int
+        person: Person
+    }
+
+    type Couple {
+        years: Int
+        groom: Person
+        bride: Person
+    }
+
+    type Dashboard {
+        date: Date
+        birthdays: [Person]
+        weddings: [Couple]
+        deaths: [Person]
+    }
+
+    type Query {
+        findByID(uuid: String!, limit: Int): [Person!]
+        findByName(name: String!, limit: Int): [Person!]
+        dashboard(date: Date): Dashboard
+    }
+
+    input LocationInput {
+        country: String
+        province: String
+        city: String
+        street: String
+        name: String
+        state: String
+        zip_code: String
+        lng: Float
+        lat: Float        
+    }
+
+    input PersonInput {
+        first_name: String!
+        last_name: String!
+        sex: Sex!
+        birthday: Date
+        birthplace: LocationInput
+    }
+
+    type Mutation {
+        addPerson( input: PersonInput ) :Person
+    }
+
+    schema {
+        query: Query
+        mutation: Mutation
+    }

@@ -1,129 +1,16 @@
 import { makeExecutableSchema } from 'graphql-tools';
 import { v1 as neo4j } from 'neo4j-driver';
-import { GraphQLScalarType } from 'graphql';
-import { Kind } from 'graphql/language';
+
+import {DateType} from './resolvers/Date';
+
+import schema from './schema.gql';
 
 const driver = neo4j.driver("bolt://localhost", neo4j.auth.basic("neo4j", "12QWasZX"))
-
-const typeDefs = `
-
-    scalar Date
-
-    enum Sex {
-        M
-        F
-    }
-
-    interface Relation {
-        since: Int
-    }
-
-    type Location {
-        uuid:ID
-        country: String
-        province: String
-        city: String
-        street: String
-        name: String
-        state: String
-        zip_code: String
-        lng: Float
-        lat: Float
-    }
-
-    type Birth {
-        date: Date
-        location: Location
-    }
-
-    type Person {
-        uuid: ID
-        first_name: String!
-        last_name: String!
-        sex: Sex!
-        education_level: String
-        title: String
-        born: Birth
-        years: Int
-        age: Int
-    }
-
-    type Celebrated {
-        age: Int
-        person: Person
-    }
-
-    type Couple {
-        years: Int
-        groom: Person
-        bride: Person
-    }
-
-    type Dashboard {
-        date: Date
-        birthdays: [Person]
-        weddings: [Couple]
-        deaths: [Person]
-    }
-
-    type Query {
-        findByID(uuid: String!, limit: Int): [Person!]
-        findByName(name: String!, limit: Int): [Person!]
-        dashboard(date: Date): Dashboard
-    }
-
-    input LocationInput {
-        country: String
-        province: String
-        city: String
-        street: String
-        name: String
-        state: String
-        zip_code: String
-        lng: Float
-        lat: Float        
-    }
-
-    input PersonInput {
-        first_name: String!
-        last_name: String!
-        sex: Sex!
-        birthday: Date
-        birthplace: LocationInput
-    }
-
-    type Mutation {
-        addPerson( input: PersonInput ) :Person
-    }
-
-    schema {
-        query: Query
-        mutation: Mutation
-    }
-`;
 
 //WITH p MATCH (p)-[r]->(t)
 //RETURN p, r, t
 const resolvers = {
-    Date : new GraphQLScalarType({
-        name: "Date",
-        description: 'Every time you need a date you need a custom scalar :|',
-        parseValue(value) {
-            return (new Date(value)).getTime();
-        },
-        serialize(value){
-            if(value.toNumber){
-                return new Date(value.toNumber());
-            }
-            return new Date(value);
-        },
-        parseLiteral(ast){
-            if(ast.kind === Kind.INT){
-                return parseInt(ast.value, 10);
-            }
-            return null;
-        }
-    }),
+    Date: DateType,
     Person: {
         age(person){
             let session = driver.session();
@@ -239,7 +126,12 @@ RETURN
     }
 }
 
+export function shutdown(){
+    console.log("closing neo4j connection");
+    driver.close();
+}
+
 export default makeExecutableSchema({
-    typeDefs,
+    typeDefs: schema,
     resolvers
 })
